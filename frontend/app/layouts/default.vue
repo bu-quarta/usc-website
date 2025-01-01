@@ -18,11 +18,12 @@
 <template>
   <div>
     <div>
-      <div class="container">
+      <div class="z-20 relative bg-background">
         <Header />
       </div>
-      <slot />
-
+      <div class="-z-20 text-sm">
+        <slot />
+      </div>
       <footer>footer</footer>
     </div>
     <Dialog v-model:open="toggleLoginDialog">

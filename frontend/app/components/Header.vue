@@ -3,13 +3,13 @@
 </script>
 
 <template>
-  <header class="flex justify-between items-center">
+  <header class="container px-16 flex justify-between items-center">
     <div class="flex items-center justify-center">
       <div class="">
         <NuxtImg src="/images/usc-logo.jpg" sizes="80" />
       </div>
       <div>
-        <p class="grid leading-tight">
+        <p class="grid leading-tight text-sm">
           <span>BICOL UNIVERSITY</span>
           <span class="font-bold">UNIVERSITY STUDENT COUNCIL</span>
         </p>
