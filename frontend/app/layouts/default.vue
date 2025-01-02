@@ -24,7 +24,7 @@
       <div class="-z-20 text-sm">
         <slot />
       </div>
-      <footer>footer</footer>
+      <Footer />
     </div>
     <Dialog v-model:open="toggleLoginDialog">
       <DialogContent>
