@@ -325,8 +325,10 @@
                     />
                   </div>
                   <div class="text-xs space-y-2 select-none text-center">
-                    <p class="uppercase font-medium text-sm">{{ official.name }}</p>
-                    <p class="font-light">{{ official.position }}</p>
+                    <div>
+                      <p class="uppercase font-medium text-sm">{{ official.name }}</p>
+                      <p class="font-light">{{ official.position }}</p>
+                    </div>
                     <p class="text-[#555555] font-light">{{ official.college }}</p>
                   </div>
                 </CardContent>

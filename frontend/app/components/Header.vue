@@ -25,7 +25,7 @@
         <MenubarTrigger class="gap-1">About <Icon name="prime:sort-down-fill" :size="16" /> </MenubarTrigger>
         <MenubarContent class="max-w-10">
           <MenubarItem>
-            <NuxtLink to="newtab"> University Student Council </NuxtLink>
+            <NuxtLink to="/usc"> University Student Council </NuxtLink>
           </MenubarItem>
           <MenubarItem>
             <NuxtLink to="newtab"> Office of the Chairperson and Student Regent </NuxtLink>
@@ -54,10 +54,14 @@
         </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
-        <MenubarTrigger>FAQs</MenubarTrigger>
+        <NuxtLink to="/faqs">
+          <MenubarTrigger>FAQs </MenubarTrigger>
+        </NuxtLink>
       </MenubarMenu>
       <MenubarMenu>
-        <MenubarTrigger>Citizen's Charter</MenubarTrigger>
+        <NuxtLink to="/citizens-charter">
+          <MenubarTrigger>Citizen's Charter </MenubarTrigger>
+        </NuxtLink>
       </MenubarMenu>
       <MenubarMenu>
         <MenubarTrigger class="focus:bg-inherit data-[state=open]:bg-inherit">
