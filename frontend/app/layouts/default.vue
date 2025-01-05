@@ -5,6 +5,7 @@
     faqs: "Frequently Asked Questions",
     "citizens-charter": "Citizens Charter",
     cscs: "College of Student Councils",
+    "office-of-the-csr": "Office of the Chairperson and Student Regent",
     cs: "BUCS CSC",
     cn: "BUCN CSC",
     cal: "BUCAL CSC",

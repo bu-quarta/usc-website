@@ -28,7 +28,7 @@
             <NuxtLink to="/usc"> University Student Council </NuxtLink>
           </MenubarItem>
           <MenubarItem>
-            <NuxtLink to="newtab"> Office of the Chairperson and Student Regent </NuxtLink>
+            <NuxtLink to="/office-of-the-csr"> Office of the Chairperson and Student Regent </NuxtLink>
           </MenubarItem>
           <MenubarItem>
             <NuxtLink to="newtab"> Meet the Developers </NuxtLink>

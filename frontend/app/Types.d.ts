@@ -18,3 +18,9 @@ interface Csc {
   image_url: string
   abbreviation: string
 }
+
+interface Csr {
+  name: string
+  school_year: string
+  college: string
+}
