@@ -6,6 +6,7 @@
     "citizens-charter": "Citizens Charter",
     cscs: "College of Student Councils",
     "office-of-the-csr": "Office of the Chairperson and Student Regent",
+    devs: "The Developers",
     cs: "BUCS CSC",
     cn: "BUCN CSC",
     cal: "BUCAL CSC",

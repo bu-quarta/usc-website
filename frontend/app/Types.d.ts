@@ -24,3 +24,9 @@ interface Csr {
   school_year: string
   college: string
 }
+
+interface Dev {
+  name: string
+  position: string
+  college: string
+}

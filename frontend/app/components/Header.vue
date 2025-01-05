@@ -31,7 +31,7 @@
             <NuxtLink to="/office-of-the-csr"> Office of the Chairperson and Student Regent </NuxtLink>
           </MenubarItem>
           <MenubarItem>
-            <NuxtLink to="newtab"> Meet the Developers </NuxtLink>
+            <NuxtLink to="/devs"> Meet the Developers </NuxtLink>
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
