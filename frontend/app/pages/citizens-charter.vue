@@ -201,10 +201,10 @@
                 <Card class="pt-5">
                   <CardContent class="space-y-2">
                     <div>
-                      <div class="flex justify-between">
+                      <div class="flex justify-between items-center">
                         <p class="text-lg font-semibold">{{ officer.name }}</p>
                         <NuxtLink to="">
-                          <Icon name="mingcute:facebook-fill" />
+                          <Icon name="mingcute:facebook-fill" size="20" />
                         </NuxtLink>
                       </div>
                       <p class="text-foreground">{{ officer.position }}</p>

@@ -4,8 +4,27 @@
     usc: "The University Student Council",
     faqs: "Frequently Asked Questions",
     "citizens-charter": "Citizens Charter",
-    newtab: "New Tab",
+    cscs: "College of Student Councils",
+    cs: "BUCS CSC",
+    cn: "BUCN CSC",
+    cal: "BUCAL CSC",
+    jmrigd: "BUCJMRIGD CSC",
+    cbem: "BUCBEM CSC",
+    ipesr: "BUCIPESR CSC",
+    cssp: "BUCSSP CSC",
+    ced: "BUCED CSC",
+    ce: "BUCE CSC",
+    ida: "BUCIDA CSC",
+    cl: "BUCL CSC",
+    cm: "BUCM CSC",
   }
+
+  const _routes = computed(() => {
+    const paths = route.path.split("/").filter((x) => x !== "")
+    return paths.map((name, index) => {
+      return { name, path: `/${paths.slice(0, index + 1).join("/")}` }
+    })
+  })
 </script>
 
 <template>
@@ -20,14 +39,16 @@
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink> <NuxtLink to="/">Home</NuxtLink> </BreadcrumbLink>
+                <BreadcrumbLink> <NuxtLink to="/">HOME</NuxtLink> </BreadcrumbLink>
               </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbLink>
-                  <NuxtLink :to="`/${route.name as string}`"> {{ routeNameDic[route.name as string] }}</NuxtLink>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
+              <template v-for="_route in _routes" :key="_route">
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbLink>
+                    <NuxtLink :to="`${_route.path}`" class="uppercase"> {{ routeNameDic[_route.name] }}</NuxtLink>
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+              </template>
             </BreadcrumbList>
           </Breadcrumb>
         </section>

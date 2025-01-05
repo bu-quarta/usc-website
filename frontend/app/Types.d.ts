@@ -12,3 +12,9 @@ interface CitizensCharter {
   missions: string[]
   officers: Officer[]
 }
+
+interface Csc {
+  name: string
+  image_url: string
+  abbreviation: string
+}
