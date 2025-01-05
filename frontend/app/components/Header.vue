@@ -39,7 +39,7 @@
         <MenubarTrigger>Iskommunity <Icon name="prime:sort-down-fill" :size="16" /></MenubarTrigger>
         <MenubarContent>
           <MenubarItem>
-            <NuxtLink to="newtab" class="flex justify-between w-full"> <span>USC Events</span> <Badge>99+</Badge></NuxtLink>
+            <NuxtLink to="/events" class="flex justify-between w-full"> <span>USC Events</span> <Badge>99+</Badge></NuxtLink>
           </MenubarItem>
           <MenubarItem>
             <NuxtLink to="newtab"> News and Updates </NuxtLink>

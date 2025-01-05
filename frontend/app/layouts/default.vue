@@ -7,6 +7,7 @@
     cscs: "College of Student Councils",
     "office-of-the-csr": "Office of the Chairperson and Student Regent",
     devs: "The Developers",
+    events: "events",
     cs: "BUCS CSC",
     cn: "BUCN CSC",
     cal: "BUCAL CSC",
