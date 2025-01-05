@@ -4,14 +4,40 @@
 
 <template>
   <div class="font-light">
-    <section id="intro" class="pb-8 container space-y-2 px-16">
-      <p class="font-bold text-xl uppercase">{{ `BU${useRoute().params.csc} CSC` }}</p>
-      <p class="font-medium">Bicol University College of Science College Student Council</p>
-      <p class="grid grid-cols-2">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla hendrerit ligula in quam sagittis elementum. Curabitur non pretium
-        velit. Etiam in lobortis mauris. Nulla ornare mi eu sapien imperdiet, id varius justo fringilla. Nullam vitae lacinia libero.
-        Vestibulum in nisi leo.
-      </p>
+    <section id="intro" class="pb-8 container space-y-2 px-16 flex gap-40">
+      <div class="space-y-4">
+        <div>
+          <p class="font-bold text-xl uppercase">{{ `BU${useRoute().params.csc} CSC` }}</p>
+          <p class="font-medium my-2">Bicol University College of Science College Student Council</p>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla hendrerit ligula in quam sagittis elementum. Curabitur non
+            pretium velit. Etiam in lobortis mauris. Nulla ornare mi eu sapien imperdiet, id varius justo fringilla. Nullam vitae lacinia
+            libero. Vestibulum in nisi leo.
+          </p>
+        </div>
+        <Card class="border-none">
+          <CardContent class="space-y-2">
+            <div class="flex items-start gap-1">
+              <Icon name="mdi:location" class="h-4 w-4" />
+              <p>
+                Office Location, Cras magna purus, suscipit at molestie at, laoreet sit amet mi. Nunc porttitor rutrum sapien lacinia
+                efficitur
+              </p>
+            </div>
+            <div class="flex items-center gap-1">
+              <Icon name="ic:baseline-email" class="h-4 w-4" />
+              <p>example.org@email.com</p>
+            </div>
+            <div class="flex items-center gap-1">
+              <Icon name="mynaui:telephone-solid" class="h-4 w-4" />
+              <p>09123456789</p>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+      <div class="w-[500px]">
+        <Skeleton class="aspect-square rounded-full" />
+      </div>
     </section>
 
     <section id="official_directory" class="container px-16 py-8">
