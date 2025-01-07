@@ -17,6 +17,7 @@ export default defineNuxtConfig({
     "@nuxt/icon",
     "@nuxt/fonts",
     "@nuxt/image",
+    "@stefanobartoletti/nuxt-social-share",
   ],
 
   routeRules: {
@@ -43,5 +44,8 @@ export default defineNuxtConfig({
   colorMode: {
     classSuffix: "",
     preference: "light",
+  },
+  socialShare: {
+    baseUrl: import.meta.env.NUXT_PUBLIC_SOCIAL_SHARE_URL || "http://localhost:3000",
   },
 })
