@@ -32,7 +32,7 @@
   }
 
   const navigate = async (path: string) => {
-    return navigateTo(`/usc-management/${routeDic[path.toLowerCase()]}`)
+    return navigateTo(`/usc-management/${routeDic[path.toLowerCase()]}/dashboard`)
   }
 </script>
 
@@ -41,8 +41,8 @@
     <div class="grid grid-cols-4 gap-4 h-40 shrink-0">
       <template v-for="profile in profiles" :key="profile">
         <Card
-          :class="`border-none hover:ring hover:ring-primary cursor-pointer bg-[${profile.color}] shadow-sm shadow-[${profile.color}] aspect-square relative`"
-          as="a"
+          :class="`border-none hover:ring hover:ring-primary cursor-pointer shadow-sm aspect-square relative`"
+          :style="`background-color: ${profile.color}; box-shadow: 0 0 10px ${profile.color};`"
           @click="navigate(`${profile.name}`)"
         >
           <CardContent class="p-0">
