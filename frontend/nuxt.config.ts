@@ -18,6 +18,7 @@ export default defineNuxtConfig({
     "@nuxt/fonts",
     "@nuxt/image",
     "@stefanobartoletti/nuxt-social-share",
+    "@nuxt/eslint",
   ],
 
   routeRules: {

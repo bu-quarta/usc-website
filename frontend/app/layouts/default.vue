@@ -9,6 +9,7 @@
     devs: "The Developers",
     events: "events",
     "news-and-updates": "News and Updates",
+    reports: "Reports",
     cs: "BUCS CSC",
     cn: "BUCN CSC",
     cal: "BUCAL CSC",

@@ -30,3 +30,11 @@ interface Dev {
   position: string
   college: string
 }
+
+interface Report {
+  type: string
+  title: string
+  date: string
+  report_url: string
+  status?: string
+}

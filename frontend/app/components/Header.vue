@@ -46,7 +46,7 @@
           </MenubarItem>
           <MenubarSeparator />
           <MenubarItem>
-            <NuxtLink to="newtab"> Reports </NuxtLink>
+            <NuxtLink to="/reports"> Reports </NuxtLink>
           </MenubarItem>
           <MenubarItem>
             <NuxtLink to="newtab"> Track my Document </NuxtLink>
