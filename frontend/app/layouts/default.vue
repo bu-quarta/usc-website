@@ -8,6 +8,7 @@
     "office-of-the-csr": "Office of the Chairperson and Student Regent",
     devs: "The Developers",
     events: "events",
+    "news-and-updates": "News and Updates",
     cs: "BUCS CSC",
     cn: "BUCN CSC",
     cal: "BUCAL CSC",

@@ -42,7 +42,7 @@
             <NuxtLink to="/events" class="flex justify-between w-full"> <span>USC Events</span> <Badge>99+</Badge></NuxtLink>
           </MenubarItem>
           <MenubarItem>
-            <NuxtLink to="newtab"> News and Updates </NuxtLink>
+            <NuxtLink to="/news-and-updates"> News and Updates </NuxtLink>
           </MenubarItem>
           <MenubarSeparator />
           <MenubarItem>
