@@ -154,11 +154,11 @@
       </h5>
     </section>
 
-    <template v-for="(reports, type) in groupedReports" :key="type">
+    <template v-for="(_reports, type) in groupedReports" :key="type">
       <section class="pb-8">
         <TitleSeparator>{{ type }} Reports</TitleSeparator>
         <div class="grid grid-cols-3 mt-8 gap-4 px-6">
-          <template v-for="report in reports" :key="index">
+          <template v-for="report in _reports" :key="report">
             <ReportCard :report="report" />
           </template>
         </div>

@@ -10,6 +10,7 @@
     events: "events",
     "news-and-updates": "News and Updates",
     reports: "Reports",
+    "document-tracking": "Track My Document",
     cs: "BUCS CSC",
     cn: "BUCN CSC",
     cal: "BUCAL CSC",
