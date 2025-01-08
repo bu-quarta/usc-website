@@ -18,7 +18,7 @@
           <NewsAndUpdateCard class="col-span-3" aspect="3/2" clamp="2" />
           <NewsAndUpdateCard class="col-span-3" aspect="3/2" clamp="2" />
 
-          <template v-for="i in 3">
+          <template v-for="i in 3" :key="i">
             <NewsAndUpdateCard class="col-span-2" />
           </template>
         </CardContent>
