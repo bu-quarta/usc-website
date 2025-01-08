@@ -25,13 +25,13 @@
         <MenubarTrigger class="gap-1">About <Icon name="prime:sort-down-fill" :size="16" /> </MenubarTrigger>
         <MenubarContent class="max-w-10">
           <MenubarItem>
-            <NuxtLink to="/usc"> University Student Council </NuxtLink>
+            <NuxtLink to="/usc" class="w-full"> University Student Council </NuxtLink>
           </MenubarItem>
           <MenubarItem>
-            <NuxtLink to="/office-of-the-csr"> Office of the Chairperson and Student Regent </NuxtLink>
+            <NuxtLink to="/office-of-the-csr" class="w-full"> Office of the Chairperson and Student Regent </NuxtLink>
           </MenubarItem>
           <MenubarItem>
-            <NuxtLink to="/devs"> Meet the Developers </NuxtLink>
+            <NuxtLink to="/devs" class="w-full"> Meet the Developers </NuxtLink>
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
@@ -42,14 +42,14 @@
             <NuxtLink to="/events" class="flex justify-between w-full"> <span>USC Events</span> <Badge>99+</Badge></NuxtLink>
           </MenubarItem>
           <MenubarItem>
-            <NuxtLink to="/news-and-updates"> News and Updates </NuxtLink>
+            <NuxtLink to="/news-and-updates" class="w-full"> News and Updates </NuxtLink>
           </MenubarItem>
           <MenubarSeparator />
           <MenubarItem>
-            <NuxtLink to="/reports"> Reports </NuxtLink>
+            <NuxtLink to="/reports" class="w-full"> Reports </NuxtLink>
           </MenubarItem>
           <MenubarItem>
-            <NuxtLink to="newtab"> Track my Document </NuxtLink>
+            <NuxtLink to="/document-tracking" class="w-full"> Track my Document </NuxtLink>
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
