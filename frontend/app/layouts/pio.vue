@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Calendar, ChartNoAxesColumnIncreasing, ChevronRight, LayoutDashboard, LogOut, Newspaper, RouteIcon } from "lucide-vue-next"
+  import { Calendar, ChartNoAxesColumnIncreasing, ChevronRight, LayoutDashboard, LogOut, Newspaper } from "lucide-vue-next"
   import Test from "~/assets/icons/test.svg"
 
   const reports = [
@@ -26,11 +26,8 @@
   ]
 
   const route = useRoute()
-
-  //last part of the route
   const lastRoute = route.path.split("/").pop()
 
-  // map route
   const routeDic: { [key: string]: string } = {
     "news-and-updates": "News and Update",
     events: "Events",
@@ -114,7 +111,7 @@
         <SidebarFooter>
           <SidebarMenu>
             <SidebarMenuButton as-child tooltip="Logout" class="hover:bg-muted">
-              <NuxtLink to="/usc-management/profile">
+              <NuxtLink to="/usc-management/">
                 <component :is="LogOut" class="rotate-180" />
                 <span>Logout</span>
               </NuxtLink>
