@@ -49,4 +49,12 @@ export default defineNuxtConfig({
   socialShare: {
     baseUrl: import.meta.env.NUXT_PUBLIC_SOCIAL_SHARE_URL || "http://localhost:3000",
   },
+  icon: {
+    customCollections: [
+      {
+        prefix: "icon",
+        dir: "./app/assets/icons",
+      },
+    ],
+  },
 })

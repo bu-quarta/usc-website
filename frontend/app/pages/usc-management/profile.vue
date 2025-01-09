@@ -32,7 +32,7 @@
   }
 
   const navigate = async (path: string) => {
-    return navigateTo(`/usc-management/${routeDic[path.toLowerCase()]}/dashboard`)
+    return navigateTo(`/usc-management/${routeDic[path.toLowerCase()]}`)
   }
 </script>
 
