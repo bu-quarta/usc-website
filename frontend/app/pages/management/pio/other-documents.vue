@@ -5,7 +5,7 @@
 </script>
 
 <template>
-  <div>Page: usc-management/usc-pio/index</div>
+  <div>Page: management/pio/other-documents</div>
 </template>
 
 <style scoped></style>

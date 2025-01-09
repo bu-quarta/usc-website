@@ -31,7 +31,7 @@
             <SidebarGroupLabel class="hidden" />
             <SidebarMenu>
               <SidebarMenuButton as-child tooltip="Dashboard" class="hover:bg-muted">
-                <NuxtLink to="/usc-management/usc-ivc/">
+                <NuxtLink to="/management/ivc/">
                   <component :is="LayoutDashboard" />
                   <span> Dashbaord </span>
                 </NuxtLink>
@@ -39,7 +39,7 @@
             </SidebarMenu>
             <SidebarMenu>
               <SidebarMenuButton as-child tooltip="File Tracking" class="hover:bg-muted">
-                <NuxtLink to="/usc-management/usc-ivc/file-tracking">
+                <NuxtLink to="/management/ivc/file-tracking">
                   <component :is="Calendar" />
                   <span> File Tracking </span>
                 </NuxtLink>
@@ -50,7 +50,7 @@
         <SidebarFooter>
           <SidebarMenu>
             <SidebarMenuButton as-child tooltip="Logout" class="hover:bg-muted">
-              <NuxtLink to="/usc-management/">
+              <NuxtLink to="/management/">
                 <component :is="LogOut" class="rotate-180" />
                 <span>Logout</span>
               </NuxtLink>

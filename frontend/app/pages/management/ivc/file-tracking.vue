@@ -5,7 +5,7 @@
 </script>
 
 <template>
-  <div>Page: usc-management/usc-ivc/index</div>
+  <div>Page: management/ivc/file-tracking</div>
 </template>
 
 <style scoped></style>

@@ -26,13 +26,13 @@
 
   const routeDic: { [key: string]: string } = {
     admin: "admin",
-    "usc p.i.o": "usc-pio",
-    "usc ivc": "usc-ivc",
-    "usc auditor": "usc-auditor",
+    "usc p.i.o": "pio",
+    "usc ivc": "ivc",
+    "usc auditor": "auditor",
   }
 
   const navigate = async (path: string) => {
-    return navigateTo(`/usc-management/${routeDic[path.toLowerCase()]}`)
+    return navigateTo(`/management/${routeDic[path.toLowerCase()]}`)
   }
 </script>
 

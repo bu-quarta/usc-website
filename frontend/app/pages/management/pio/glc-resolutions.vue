@@ -5,7 +5,7 @@
 </script>
 
 <template>
-  <div>Page: usc-management/usc-pio/glc-resolutions</div>
+  <div>Page: management/pio/glc-resolutions</div>
 </template>
 
 <style scoped></style>

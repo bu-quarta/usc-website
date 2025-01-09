@@ -5,23 +5,23 @@
   const reports = [
     {
       title: "Financial Reports",
-      url: "/usc-management/usc-pio/financial-reports",
+      url: "/management/pio/financial-reports",
     },
     {
       title: "Audit Report",
-      url: "/usc-management/usc-pio/audit-reports",
+      url: "/management/pio/audit-reports",
     },
     {
       title: "Accomplishment Records",
-      url: "/usc-management/usc-pio/accomplishment-records",
+      url: "/management/pio/accomplishment-records",
     },
     {
       title: "GLC Resolutions",
-      url: "/usc-management/usc-pio/glc-resolutions",
+      url: "/management/pio/glc-resolutions",
     },
     {
       title: "Other Documents",
-      url: "/usc-management/usc-pio/other-documents",
+      url: "/management/pio/other-documents",
     },
   ]
 
@@ -60,7 +60,7 @@
             <SidebarGroupLabel class="hidden" />
             <SidebarMenu>
               <SidebarMenuButton as-child tooltip="Dashboard" class="hover:bg-muted">
-                <NuxtLink to="/usc-management/usc-pio/">
+                <NuxtLink to="/management/pio/">
                   <component :is="LayoutDashboard" />
                   <span> Dashbaord </span>
                 </NuxtLink>
@@ -92,7 +92,7 @@
             </SidebarMenu>
             <SidebarMenu>
               <SidebarMenuButton as-child tooltip="News and Update" class="hover:bg-muted">
-                <NuxtLink to="/usc-management/usc-pio/news-and-update">
+                <NuxtLink to="/management/pio/news-and-update">
                   <component :is="Newspaper" />
                   <span> News and Update </span>
                 </NuxtLink>
@@ -100,7 +100,7 @@
             </SidebarMenu>
             <SidebarMenu>
               <SidebarMenuButton as-child tooltip="Events" class="hover:bg-muted">
-                <NuxtLink to="/usc-management/usc-pio/events">
+                <NuxtLink to="/management/pio/events">
                   <component :is="Calendar" />
                   <span> Events </span>
                 </NuxtLink>
@@ -111,7 +111,7 @@
         <SidebarFooter>
           <SidebarMenu>
             <SidebarMenuButton as-child tooltip="Logout" class="hover:bg-muted">
-              <NuxtLink to="/usc-management/">
+              <NuxtLink to="/management/">
                 <component :is="LogOut" class="rotate-180" />
                 <span>Logout</span>
               </NuxtLink>

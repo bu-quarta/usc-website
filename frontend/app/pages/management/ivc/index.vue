@@ -1,11 +1,11 @@
 <script setup lang="ts">
   definePageMeta({
-    layout: "pio",
+    layout: "ivc",
   })
 </script>
 
 <template>
-  <div>Page: usc-management/usc-pio/financial-reports</div>
+  <div>Page: management/ivc/index</div>
 </template>
 
 <style scoped></style>
