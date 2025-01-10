@@ -281,7 +281,9 @@ lacinia. Sed pulvinar tempor ullamcorper, adipiscing vivamus mi etiam.`
 
       <div class="grid grid-cols-4 mt-2 gap-4">
         <template v-for="i in 4" :key="i">
-          <EventCard pastEvents />
+          <NuxtLink to="/events/slug">
+            <EventCard past-events />
+          </NuxtLink>
         </template>
       </div>
     </section>

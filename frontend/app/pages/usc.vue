@@ -121,7 +121,7 @@
       </div>
     </section>
 
-    <section id="official_directory" class="container px-16 py-8">
+    <section id="official-directory" class="container px-16 py-8">
       <div class="text-center">
         <div class="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
           <Separator />
@@ -158,29 +158,25 @@
       </div>
     </section>
 
-    <section id="official_directory" class="container px-16 py-8">
+    <section id="official_directory_advisers" class="container px-16 py-8">
       <Separator class="mb-16" />
 
-      <div class="flex gap-4 justify-center">
-        <div class="p-1 grid grid-cols-3 gap-4 px-8">
-          <template v-for="adviser in advisers" :key="adviser">
-            <Card class="border-none">
-              <CardContent class="items-center justify-center space-y-2 p-0">
-                <div class="w-full">
-                  <Skeleton
-                    class="rounded-md aspect-[4/5] w-full bg-[radial-gradient(circle,rgba(255,171,0,1)_0%,rgba(0,153,203,1)_100%)]"
-                  />
+      <div class="p-1 grid grid-cols-4 gap-4 px-8">
+        <template v-for="adviser in advisers" :key="adviser">
+          <Card class="border-none">
+            <CardContent class="items-center justify-center space-y-2 p-0">
+              <div class="w-full">
+                <Skeleton class="rounded-md aspect-[4/5] w-full bg-[radial-gradient(circle,rgba(255,171,0,1)_0%,rgba(0,153,203,1)_100%)]" />
+              </div>
+              <div class="text-xs space-y-2 select-none text-center">
+                <div>
+                  <p class="uppercase font-medium text-sm">{{ adviser.name }}</p>
+                  <p class="font-light">{{ adviser.position }}</p>
                 </div>
-                <div class="text-xs space-y-2 select-none text-center">
-                  <div>
-                    <p class="uppercase font-medium text-sm">{{ adviser.name }}</p>
-                    <p class="font-light">{{ adviser.position }}</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </template>
-        </div>
+              </div>
+            </CardContent>
+          </Card>
+        </template>
       </div>
     </section>
   </div>

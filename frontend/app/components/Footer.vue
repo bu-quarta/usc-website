@@ -9,7 +9,7 @@
           <p class="font-bold text-sm">UNIVERSITY STUDENT COUNCIL</p>
         </div>
         <div class="space-y-1">
-          <p class="flex items-center gap-1">
+          <p class="flex items-start gap-1">
             <Icon name="mdi:location" /> <span>Bicol University Main Campus, Rizal St, Legazpi, Philippines</span>
           </p>
           <p class="flex items-center gap-1"><Icon name="ic:baseline-email" /> <span>bu-usc@bicol-u.edu.ph</span></p>
@@ -31,10 +31,10 @@
 
       <div id="quick_links" class="flex flex-col gap-2">
         <p class="uppercase font-medium">Quick Links</p>
-        <NuxtLink to="">Directory</NuxtLink>
-        <NuxtLink to="">College Student Councils</NuxtLink>
-        <NuxtLink to="">Reports</NuxtLink>
-        <NuxtLink to="">Track My Document</NuxtLink>
+        <NuxtLink to="/usc#official-directory">Directory</NuxtLink>
+        <NuxtLink to="/cscs">College Student Councils</NuxtLink>
+        <NuxtLink to="/reports">Reports</NuxtLink>
+        <NuxtLink to="/document-tracking">Track My Document</NuxtLink>
       </div>
 
       <div id="visitors" class="flex flex-col gap-2">

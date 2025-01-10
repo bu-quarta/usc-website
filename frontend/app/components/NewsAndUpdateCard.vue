@@ -8,7 +8,7 @@
 <template>
   <Card class="border-none">
     <CardContent class="p-0">
-      <Skeleton :class="`aspect-[${aspect}]`" />
+      <Skeleton :style="{ aspectRatio: aspect }" />
 
       <CardHeader class="px-0 py-2">
         <CardTitle class="text-lg">Praesentium sed in corrupti odit architecto </CardTitle>

@@ -20,12 +20,6 @@ lacinia. Sed pulvinar tempor ullamcorper, adipiscing vivamus mi etiam.`
   }
 
   const sortComment = ref()
-  const currentRating = ref(0)
-  const commentRating = ref(4)
-
-  const setRating = (rating: number): void => {
-    currentRating.value = rating
-  }
 
   const comments = ref<Comment[]>([
     {
@@ -136,7 +130,7 @@ lacinia. Sed pulvinar tempor ullamcorper, adipiscing vivamus mi etiam.`
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectLabel></SelectLabel>
+              <SelectLabel />
               <SelectItem value="latest"> Latest </SelectItem>
               <SelectItem value="most-likes"> Most Likes </SelectItem>
               <SelectItem value="oldest"> Oldest </SelectItem>
@@ -148,12 +142,12 @@ lacinia. Sed pulvinar tempor ullamcorper, adipiscing vivamus mi etiam.`
 
         <Card class="border-none">
           <CardContent class="px-0 space-y-6">
-            <template v-for="comment in comments" :key="commnent">
+            <template v-for="comment in comments" :key="comment">
               <div class="flex gap-2">
                 <Avatar>
                   <AvatarImage :src="comment.iamge_url" alt="@radix-vue" />
                   <AvatarFallback class="flex items-center">
-                    <Icon name="mdi:anonymous" class="text-2xl text-muted-foreground" v-if="!comment.name" />
+                    <Icon v-if="!comment.name" name="mdi:anonymous" class="text-2xl text-muted-foreground" />
                     {{ comment.name?.slice(0, 2).toLocaleUpperCase() }}
                   </AvatarFallback>
                 </Avatar>
@@ -195,7 +189,9 @@ lacinia. Sed pulvinar tempor ullamcorper, adipiscing vivamus mi etiam.`
 
       <div class="grid grid-cols-4 mt-2 gap-4">
         <template v-for="i in 7" :key="i">
-          <NewsAndUpdateCard />
+          <NuxtLink to="/news-and-updates/slug">
+            <NewsAndUpdateCard />
+          </NuxtLink>
         </template>
       </div>
     </section>

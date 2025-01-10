@@ -196,7 +196,9 @@
         </p>
       </div>
       <div>
-        <Button size="sm">Read More<Icon name="material-symbols:chevron-right-rounded" size="20" /></Button>
+        <NuxtLink to="/usc">
+          <Button size="sm">Read More<Icon name="material-symbols:chevron-right-rounded" size="20" /></Button>
+        </NuxtLink>
       </div>
     </div>
   </section>

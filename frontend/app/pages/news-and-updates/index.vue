@@ -6,7 +6,7 @@
       <div class="flex justify-between">
         <h1 class="text-xl font-bold">News and Updates</h1>
         <div class="relative max-w-sm items-center">
-          <Input id="search" type="text" placeholder="Search Events" class="pl-10" />
+          <Input id="search" type="text" placeholder="Search News and Updates" class="pl-10" />
           <span class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
             <Icon name="lucide:search" class="size-5 text-muted-foreground" />
           </span>
@@ -15,11 +15,17 @@
 
       <Card class="border-none mt-8">
         <CardContent class="grid grid-cols-6 gap-4">
-          <NewsAndUpdateCard class="col-span-3" aspect="3/2" clamp="2" />
-          <NewsAndUpdateCard class="col-span-3" aspect="3/2" clamp="2" />
+          <NuxtLink to="/news-and-updates/slug" class="col-span-3">
+            <NewsAndUpdateCard aspect="3/2" clamp="2" />
+          </NuxtLink>
+          <NuxtLink to="/news-and-updates/slug" class="col-span-3">
+            <NewsAndUpdateCard aspect="3/2" clamp="2" />
+          </NuxtLink>
 
           <template v-for="i in 3" :key="i">
-            <NewsAndUpdateCard class="col-span-2" />
+            <Nuxtlink to="/news-and-updates/slug" class="col-span-2">
+              <NewsAndUpdateCard />
+            </Nuxtlink>
           </template>
         </CardContent>
       </Card>
@@ -33,7 +39,9 @@
 
       <div class="grid lg:grid-cols-4 grid-cols-3 gridcol mt-8 gap-4">
         <template v-for="i in 6" :key="i">
-          <NewsAndUpdateCard />
+          <NuxtLink to="/news-and-updates/slug">
+            <NewsAndUpdateCard />
+          </NuxtLink>
         </template>
       </div>
     </section>
