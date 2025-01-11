@@ -9,6 +9,9 @@ export const useStates = () => {
 
   //PioNewsAndUpdate
   const togglePioDeleteNewsAndUpdateDialog = useState("toggle-pio-delete-news-update-dialog", () => false)
+  const togglePioUploadNewsAndUpdateDialog = useState("toggle-pio-upload-news-update-dialog", () => false)
+  const togglePioEditNewsAndUpdateDialog = useState("toggle-pio-edit-news-update-dialog", () => false)
+
   const loginDialogShown = useCookie("login-dialog-shown", {
     default: () => false,
     maxAge: 60 * 60 * 24,
@@ -21,5 +24,8 @@ export const useStates = () => {
     togglePioUploadReportDialog,
     togglePioDeleteReportDialog,
     togglePioEditReportDialog,
+    togglePioDeleteNewsAndUpdateDialog,
+    togglePioUploadNewsAndUpdateDialog,
+    togglePioEditNewsAndUpdateDialog,
   }
 }
