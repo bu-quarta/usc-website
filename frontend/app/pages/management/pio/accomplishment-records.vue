@@ -5,7 +5,7 @@
 </script>
 
 <template>
-  <div>Page: management/pio/accomplishment-records</div>
+  <PioReport type="accomplishment-records" />
 </template>
 
 <style scoped></style>

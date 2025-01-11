@@ -5,7 +5,7 @@
 </script>
 
 <template>
-  <div>Page: management/pio/other-documents</div>
+  <PioReport type="other-documents" />
 </template>
 
 <style scoped></style>

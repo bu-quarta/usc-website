@@ -26,10 +26,10 @@
   ]
 
   const route = useRoute()
-  const lastRoute = route.path.split("/").pop()
+  const lastRoute = computed(() => route.path.split("/").pop())
 
   const routeDic: { [key: string]: string } = {
-    "news-and-updates": "News and Update",
+    "news-and-updates": "News and Updates",
     events: "Events",
     "financial-reports": "Financial Reports",
     "audit-reports": "Audit Report",
@@ -92,7 +92,7 @@
             </SidebarMenu>
             <SidebarMenu>
               <SidebarMenuButton as-child tooltip="News and Update" class="hover:bg-muted">
-                <NuxtLink to="/management/pio/news-and-update">
+                <NuxtLink to="/management/pio/news-and-updates">
                   <component :is="Newspaper" />
                   <span> News and Update </span>
                 </NuxtLink>
@@ -120,17 +120,31 @@
         </SidebarFooter>
         <SidebarRail />
       </Sidebar>
-      <SidebarInset>
+      <SidebarInset class="h-screen">
         <header
           class="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12"
         >
           <div class="flex items-center gap-2 -ml-4">
             <SidebarTrigger class="-ml-1" />
             <Separator orientation="vertical" class="mr-2 h-4" />
-            <h5>{{ routeDic[lastRoute as string] ?? "Dashboard" }}</h5>
+            <h5 class="text-muted-foreground font-medium">{{ routeDic[lastRoute as string] ?? "Dashboard" }}</h5>
           </div>
         </header>
+        <div class="overflow-y-auto scrollbar-hide" style="height: calc(100vh - 4rem)">
+          <slot />
+        </div>
       </SidebarInset>
     </SidebarProvider>
   </div>
 </template>
+
+<style scoped>
+  .scrollbar-hide {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer and Edge */
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Opera */
+  }
+</style>

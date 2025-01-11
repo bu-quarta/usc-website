@@ -5,7 +5,7 @@
 </script>
 
 <template>
-  <div>Page: management/pio/glc-resolutions</div>
+  <PioReport type="glc-resolutions" />
 </template>
 
 <style scoped></style>

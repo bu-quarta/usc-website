@@ -5,7 +5,7 @@
 </script>
 
 <template>
-  <div>Page: management/pio/financial-reports</div>
+  <PioReport type="financial-reports" />
 </template>
 
 <style scoped></style>
