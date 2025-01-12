@@ -1,5 +1,8 @@
 <script setup lang="ts">
   const { toggleLoginDialog } = useStates()
+
+  const user = useCurrentUser<User>()
+  const hasRole = computed(() => user.value?.roles && user.value.roles.length > 0)
 </script>
 
 <template>
@@ -63,9 +66,14 @@
           <MenubarTrigger>Citizen's Charter </MenubarTrigger>
         </NuxtLink>
       </MenubarMenu>
-      <MenubarMenu>
+      <MenubarMenu v-if="!user">
         <MenubarTrigger class="focus:bg-inherit data-[state=open]:bg-inherit">
           <Button as="div" class="hover:cursor-pointer" @click="toggleLoginDialog = true"> Log in </Button>
+        </MenubarTrigger>
+      </MenubarMenu>
+      <MenubarMenu v-if="hasRole">
+        <MenubarTrigger class="focus:bg-inherit data-[state=open]:bg-inherit">
+          <Button as="div" class="hover:cursor-pointer" @click="navigateTo(`/management/${user?.roles[0]}`)"> Dashboard </Button>
         </MenubarTrigger>
       </MenubarMenu>
     </Menubar>

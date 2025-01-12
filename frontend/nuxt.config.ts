@@ -27,6 +27,12 @@ export default defineNuxtConfig({
     },
   },
 
+  runtimeConfig: {
+    public: {
+      backendUrl: import.meta.env.NUXT_PUBLIC_LARAVEL_SANCTUM_API_URL,
+    },
+  },
+
   laravelSanctum: {
     apiUrl: import.meta.env.NUXT_PUBLIC_LARAVEL_SANCTUM_API_URL,
   },

@@ -3,6 +3,7 @@
 
   const { toggleLoginDialog, loginDialogShown } = useStates()
   const { isLoggedIn } = useSanctum()
+  const backendUrl = useRuntimeConfig().public.backendUrl
 
   onMounted(() => {
     if (!isLoggedIn.value && !loginDialogShown.value) {
@@ -30,15 +31,19 @@
         </div>
       </DialogHeader>
 
-      <Button class="bg-[linear-gradient(260deg,rgba(234,167,51,1)_0%,rgba(0,153,203,1)_100%)] py-2">
-        <span class="bg-white rounded-full flex p-0.5"><Icon name="logos:google-icon" size="20" /></span>
-        Sign in with Google
-      </Button>
+      <NuxtLink :to="`${backendUrl}/auth/google`" class="border">
+        <Button class="bg-[linear-gradient(260deg,rgba(234,167,51,1)_0%,rgba(0,153,203,1)_100%)] py-2 w-full">
+          <span class="p-px bg-white rounded-full flex">
+            <Icon name="flat-color-icons:google" size="20" />
+          </span>
+          Sign in with Google
+        </Button>
+      </NuxtLink>
 
       <Separator class="my-2" label="Or" />
 
       <Button class="bg-[#555555] hover:bg-[#555555] py-2 mb-8" @click="toggleLoginDialog = false">
-        <span class="rounded-full flex p-1"><Icon name="qlementine-icons:user-16" size="24" /></span>
+        <span class="rounded-full flex p-1"><Icon name="qlementine-icons:user-16" size="22" /></span>
         Continue as Guest
       </Button>
     </DialogContent>

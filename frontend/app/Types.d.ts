@@ -38,3 +38,9 @@ interface Report {
   report_url: string
   status?: string
 }
+
+interface User {
+  name: string
+  email: string
+  roles: string[]
+}
