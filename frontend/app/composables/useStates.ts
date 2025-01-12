@@ -12,6 +12,11 @@ export const useStates = () => {
   const togglePioUploadNewsAndUpdateDialog = useState("toggle-pio-upload-news-update-dialog", () => false)
   const togglePioEditNewsAndUpdateDialog = useState("toggle-pio-edit-news-update-dialog", () => false)
 
+  //Event
+  const togglePioUploadEventDialog = useState("toggle-pio-upload-event-dialog", () => false)
+  const togglePioEditEventDialog = useState("toggle-pio-edit-event-dialog", () => false)
+  const togglePioDeleteEventDialog = useState("toggle-pio-delete-event-dialog", () => false)
+
   const loginDialogShown = useCookie("login-dialog-shown", {
     default: () => false,
     maxAge: 60 * 60 * 24,
@@ -27,5 +32,8 @@ export const useStates = () => {
     togglePioDeleteNewsAndUpdateDialog,
     togglePioUploadNewsAndUpdateDialog,
     togglePioEditNewsAndUpdateDialog,
+    togglePioUploadEventDialog,
+    togglePioEditEventDialog,
+    togglePioDeleteEventDialog,
   }
 }

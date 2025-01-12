@@ -1,12 +1,17 @@
 <script setup lang="ts">
-  const { togglePioEditNewsAndUpdateDialog } = useStates()
+  import VueDatePicker from "@vuepic/vue-datepicker"
+  import "@vuepic/vue-datepicker/dist/main.css"
+
+  const { togglePioEditEventDialog } = useStates()
+
+  const date = ref(new Date())
 </script>
 
 <template>
-  <Dialog v-model:open="togglePioEditNewsAndUpdateDialog">
+  <Dialog v-model:open="togglePioEditEventDialog">
     <DialogContent class="max-w-[40rem]">
       <DialogHeader>
-        <DialogTitle>Edit Post </DialogTitle>
+        <DialogTitle>Edit Event </DialogTitle>
         <DialogDescription>Drag and drop or browse to upload an image. Supported image types are jpg/png.</DialogDescription>
       </DialogHeader>
 
@@ -27,13 +32,25 @@
 
         <div class="col-span-3 flex flex-col gap-1.5 place-items-start">
           <div class="grid w-full items-center gap-2">
-            <Label for="news-and-update-title">Title</Label>
-            <Input id="news-and-update-title" placeholder="Write Here..." class="shadow-sm" />
+            <Label for="event-title">Title</Label>
+            <Input id="event-title" placeholder="Write Here..." class="shadow-sm" />
+          </div>
+
+          <div class="grid w-full items-center gap-2">
+            <Label for="event-title">Date Time</Label>
+            <VueDatePicker
+              v-model="date"
+              time-picker-inline
+              offset="-200"
+              auto-position="top"
+              :is24="false"
+              :month-change-on-scroll="false"
+            />
           </div>
 
           <div class="w-full gap-2 flex flex-col flex-1 items-start">
-            <Label for="news-and-update-desc">Description</Label>
-            <Textarea id="news-and-update-desc" placeholder="Write Here..." class="shadow-sm h-full" />
+            <Label for="event-desc">Description</Label>
+            <Textarea id="event-desc" placeholder="Write Here..." class="shadow-sm h-full" />
           </div>
         </div>
       </div>
