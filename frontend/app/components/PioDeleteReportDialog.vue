@@ -1,7 +1,18 @@
 <script setup lang="ts">
   const { togglePioDeleteReportDialog } = useStates()
 
-  const props = defineProps<{ id: number }>()
+  const props = withDefaults(defineProps<{ reportId: number }>(), {
+    reportId: 0,
+  })
+  const emit = defineEmits(["delete"])
+
+  const deleteReport = async () => {
+    await useSanctumFetch(`/api/reports/${props.reportId}`, {
+      method: "DELETE",
+    })
+    emit("delete")
+    togglePioDeleteReportDialog.value = false
+  }
 </script>
 
 <template>
@@ -14,7 +25,7 @@
       </AlertDialogHeader>
       <AlertDialogFooter class="sm:justify-between mt-4">
         <AlertDialogCancel class="px-10">Cancel</AlertDialogCancel>
-        <AlertDialogAction class="px-10 bg-[#ef4444] hover:bg-[#ef5555]">Delete</AlertDialogAction>
+        <AlertDialogAction class="px-10 bg-[#ef4444] hover:bg-[#ef5555]" @click="deleteReport">Delete</AlertDialogAction>
       </AlertDialogFooter>
     </AlertDialogContent>
   </AlertDialog>

@@ -19,7 +19,7 @@
         <div class="col-span-2">
           <Label for="file">File</Label>
           <Card id="file" class="cursor-pointer">
-            <CardContent class="shadow-sm border rounded-md p-4 aspect-square">
+            <CardContent class="shadow-sm bordver rounded-md p-4 aspect-square">
               <div class="border border-dashed border-black rounded-sm flex items-center justify-center text-center h-full">
                 <div class="text-muted-foreground select-none">
                   <Icon name="et:upload" class="text-2xl" />

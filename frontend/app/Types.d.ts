@@ -32,10 +32,11 @@ interface Dev {
 }
 
 interface Report {
+  id: number
   type: string
   title: string
-  date: string
-  report_url: string
+  date_time: string
+  file_url: string
   status?: string
 }
 

@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import { Calendar, ChartNoAxesColumnIncreasing, ChevronRight, LayoutDashboard, LogOut, Newspaper } from "lucide-vue-next"
   import Test from "~/assets/icons/test.svg"
+  import Toaster from "@/components/ui/toast/Toaster.vue"
 
   const reports = [
     {
@@ -41,6 +42,7 @@
 
 <template>
   <div class="container relative">
+    <Toaster />
     <SidebarProvider class="select-none">
       <Sidebar collapsible="icon" class="absolute">
         <SidebarHeader class="">
