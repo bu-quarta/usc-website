@@ -45,3 +45,13 @@ interface User {
   email: string
   roles: string[]
 }
+
+interface NewsUpdate {
+  id: number
+  title: string
+  description: string
+  published_date: string
+  image_url: string
+  status: string
+  date_time: string
+}
