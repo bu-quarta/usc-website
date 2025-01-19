@@ -1,7 +1,16 @@
 <script setup lang="ts">
   const { togglePioDeleteEventDialog } = useStates()
 
-  const props = defineProps<{ id: number }>()
+  const props = defineProps<{ eventId: number }>()
+  const emit = defineEmits(["delete"])
+
+  const deleteEvent = async () => {
+    await useSanctumFetch(`/api/event-posts/${props.eventId}`, {
+      method: "DELETE",
+    })
+    emit("delete")
+    togglePioDeleteEventDialog.value = false
+  }
 </script>
 
 <template>
@@ -14,7 +23,7 @@
       </AlertDialogHeader>
       <AlertDialogFooter class="sm:justify-between mt-4">
         <AlertDialogCancel class="px-10">Cancel</AlertDialogCancel>
-        <AlertDialogAction class="px-10 bg-[#ef4444] hover:bg-[#ef5555]">Delete</AlertDialogAction>
+        <AlertDialogAction class="px-10 bg-[#ef4444] hover:bg-[#ef5555]" @click="deleteEvent">Delete</AlertDialogAction>
       </AlertDialogFooter>
     </AlertDialogContent>
   </AlertDialog>

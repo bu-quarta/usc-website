@@ -50,8 +50,20 @@ interface NewsUpdate {
   id: number
   title: string
   description: string
-  published_date: string
+  published_date: stringW
   image_url: string
   status: string
   date_time: string
+}
+
+interface EventPost {
+  id: number
+  title: string
+  description: string
+  date_time: string
+  location: string
+  image_url: string
+  status: string
+  date_posted: string
+  date_time_posted: string
 }
