@@ -83,6 +83,7 @@ interface Comment {
 
 interface EventPostDetail {
   event_post: EventPost
+  comments: Comment[]
   previous_event: {
     slug: string
     title: string

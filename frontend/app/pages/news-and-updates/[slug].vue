@@ -22,7 +22,7 @@
     }
 
     return data.value.comments
-  })
+  }) as Ref<Comment[]>
 
   const config = useRuntimeConfig()
   const image_url = computed(() => `${config.public.backendUrl}${data?.value?.news_update.image_url}`)
