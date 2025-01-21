@@ -14,6 +14,9 @@
   const slug = useRoute().params.slug
   const { data } = await useAsyncData<EventPostDetail>("event-post", () => useSanctumFetch(`/api/event-posts/${slug}`))
 
+  const config = useRuntimeConfig()
+  const image_url = computed(() => `${config.public.backendUrl}${data?.value?.event_post.image_url}`)
+
   const sortComment = ref()
   const currentRating = ref(0)
   const commentRating = ref(4)
@@ -69,11 +72,14 @@
   <div v-if="!!data" class="container px-32">
     <Card class="py-8 border-none">
       <CardContent>
-        <Skeleton class="h-96 w-full" />
+        <AspectRatio v-if="image_url" :ratio="2">
+          <NuxtImg :src="image_url" alt="news" class="rounded-md object-cover w-full h-full" />
+        </AspectRatio>
+        <Skeleton v-else class="h-96 w-full" />
         <div class="flex justify-between items-center p-4">
           <CardHeader class="p-0">
             <CardTitle>{{ data?.event_post.title }}</CardTitle>
-            <CardDescription>
+            <div>
               <div class="flex gap-8">
                 <p class="text-foreground">{{ data?.event_post.date_time }}</p>
                 <p class="flex items-center gap-1">
@@ -81,7 +87,7 @@
                   <span>{{ data?.event_post.location }}</span>
                 </p>
               </div>
-            </CardDescription>
+            </div>
           </CardHeader>
           <Button size="sm">
             <p>Evaluate</p>
@@ -272,7 +278,7 @@
       </CardContent>
     </Card>
 
-    <section id="" class="">
+    <section v-if="!!data.other_events.length" id="other-events">
       <div class="flex items-center gap-2 pb-8">
         <p class="text-xl font-bold">Other Events</p>
         <Separator class="flex-1" />
