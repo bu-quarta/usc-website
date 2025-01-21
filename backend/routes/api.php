@@ -56,8 +56,8 @@ Route::post('documents', [DocumentController::class, 'store']);
 // Show a specific document
 Route::get('documents/{id}', [DocumentController::class, 'show']);
 
-// Update the status of a document
-Route::put('documents/{id}/status', [DocumentController::class, 'update']);
+// Search document by document_format
+Route::get('documents/search/{documentFormat}', [DocumentController::class, 'searchByFormat']);
 
 // Delete a document
 Route::delete('documents/{id}', [DocumentController::class, 'destroy']);

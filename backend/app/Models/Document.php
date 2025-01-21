@@ -16,9 +16,9 @@ class Document extends Model
 
     // Relationship with statuses
     public function statuses()
-    {
-        return $this->hasMany(DocumentStatus::class);
-    }
+{
+    return $this->hasMany(DocumentStatus::class);
+}
 
     // Retrieve the latest status
     public function latestStatus()

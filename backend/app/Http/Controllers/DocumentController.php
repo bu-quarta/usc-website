@@ -13,33 +13,41 @@ class DocumentController extends Controller
     public function index()
     {
         $documents = Document::with(['statuses' => function ($query) {
-            $query->latest()->first(); // Fetch only the latest status
-        }])->get();
+            $query->orderBy('created_at', 'desc'); // Ensure statuses are ordered
+        }])
+        ->get()
+        ->map(function ($document) {
+            $document->latest_status = $document->statuses->first(); // Add the latest status
+            unset($document->statuses); // Optionally hide all statuses
+            return $document;
+        });
 
         return response()->json($documents);
     }
 
-    // Store a new document and set initial status
+    // Store a new document and set its initial status
     public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255', // Validate name
-        ]);
+{
+    // Set a default name if none is provided
+    $validated = $request->validate([
+        'name' => 'nullable|string|max:255', // Make name optional
+    ]);
 
-        // Create a new document
-        $document = Document::create([
-            'name' => $request->name,
-            'document_format' => $this->generateDocumentFormat(),
-        ]);
+    $name = $validated['name'] ?? 'Sample Document'; // Default to 'Sample Document' if no name is given
 
-        // Add initial status as PENDING
-        DocumentStatus::create([
-            'document_id' => $document->id,
-            'status' => 'PENDING',
-        ]);
+    $document = Document::create([
+        'name' => $name,
+        'document_format' => $this->generateDocumentFormat(),
+    ]);
 
-        return response()->json($document, 201);
-    }
+    // Create initial status
+    DocumentStatus::create([
+        'document_id' => $document->id,
+        'status' => 'PENDING',
+    ]);
+
+    return response()->json($document->load('statuses'), 201);
+}
 
     // Show a specific document with its status history
     public function show($id)
@@ -52,40 +60,35 @@ class DocumentController extends Controller
         }
     }
 
-    // Update the status of a document
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'status' => 'required|string|in:PENDING,SIGNED,FORWARDED,RECEIVED', // Validate status
-        ]);
-
-        // Check if the document exists
-        $document = Document::findOrFail($id);
-
-        // Add a new status entry in the document_statuses table
-        $newStatus = DocumentStatus::create([
-            'document_id' => $document->id,
-            'status' => $request->status,
-        ]);
-
-        return response()->json(['message' => 'Document status updated successfully', 'status' => $newStatus]);
-    }
-
     // Delete a document and its statuses
     public function destroy($id)
     {
         $document = Document::findOrFail($id);
+
+        // Delete associated statuses first
+        $document->statuses()->delete();
         $document->delete();
 
-        return response()->json(['message' => 'Document deleted successfully']);
+        return response()->json(['message' => 'Document and its statuses deleted successfully']);
     }
 
-    // Generate a unique document format (e.g., DOC-000-XXXX)
+    // Generate a unique document format (e.g., DOC-0001)
     private function generateDocumentFormat()
     {
-        $lastDocument = Document::latest()->first();
+        $lastDocument = Document::latest('id')->first();
         $nextId = $lastDocument ? $lastDocument->id + 1 : 1;
 
         return 'DOC-' . str_pad($nextId, 4, '0', STR_PAD_LEFT);
     }
+
+    public function searchByFormat($documentFormat)
+{
+    try {
+        $document = Document::with('statuses')->where('document_format', $documentFormat)->firstOrFail();
+        return response()->json($document);
+    } catch (ModelNotFoundException $e) {
+        return response()->json(['message' => 'Document not found'], 404);
+    }
+}
+
 }

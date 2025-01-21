@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ReportResource;
 use App\Models\Report;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -44,10 +45,18 @@ class ReportController extends Controller
             $filePath = Storage::url($request->file('file')->store('file/reports', 'public'));
         }
 
-        Report::create([
+        $report = Report::create([
             'name' => $request->name,
             'type' => $request->type,
             'file_path' => $filePath,
+        ]);
+
+        // Log the activity
+        ActivityLog::create([
+            'user_id' => auth()->id(),
+            'action' => 'created',
+            'resource' => 'reports',
+            'resource_id' => $report->id,
         ]);
 
         return response()->noContent();
@@ -60,7 +69,7 @@ class ReportController extends Controller
             'file' => 'file|mimes:pdf' // Restrict file types
         ]);
 
-        $filePath = null;
+        $filePath = $report->file_path;
 
         if ($request->hasFile('file')) {
             $filePath = Storage::url($request->file('file')->store('file/reports', 'public'));
@@ -68,7 +77,15 @@ class ReportController extends Controller
 
         $report->update([
             'name' => $request->name,
-            'file_path' => $filePath ?? $report->file_path,
+            'file_path' => $filePath,
+        ]);
+
+        // Log the activity
+        ActivityLog::create([
+            'user_id' => auth()->id(),
+            'action' => 'updated',
+            'resource' => 'reports',
+            'resource_id' => $report->id,
         ]);
 
         return response()->noContent();
@@ -91,7 +108,6 @@ class ReportController extends Controller
         return response()->json(['message' => 'File not found'], 404);
     }
 
-
     // Delete a report
     public function destroy(Report $report)
     {
@@ -104,6 +120,14 @@ class ReportController extends Controller
 
         // Delete the report record
         $report->delete();
+
+        // Log the activity
+        ActivityLog::create([
+            'user_id' => auth()->id(),
+            'action' => 'deleted',
+            'resource' => 'reports',
+            'resource_id' => $report->id,
+        ]);
 
         return response()->noContent();
     }

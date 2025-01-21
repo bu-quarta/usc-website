@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\NewsUpdateResource;
 use App\Models\NewsUpdate;
 use App\Models\Comment;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -23,10 +24,10 @@ class NewsUpdateController extends Controller
     {
         // Validate the request with optional fields
         $validated = $request->validate([
-            'title' => 'required|string|max:255', // Title is optional
-            'description' => 'required|string', // Description is optional
-            'image' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048', // Image is optional
-            'status' => 'nullable|in:published,draft', // Status is optional
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'image' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'status' => 'nullable|in:published,draft',
         ]);
 
         // Handle the image upload
@@ -37,16 +38,23 @@ class NewsUpdateController extends Controller
         }
 
         // Create and save the news update
-        NewsUpdate::create([
+        $newsUpdate = NewsUpdate::create([
             'title' => $validated['title'],
             'description' => $validated['description'],
             'image_path' => $imagePath,
             'status' => $validated['status'] ?? 'draft',
         ]);
 
+        // Log the activity
+        ActivityLog::create([
+            'user_id' => auth()->id(),
+            'action' => 'created',
+            'resource' => 'news_updates',
+            'resource_id' => $newsUpdate->id,
+        ]);
+
         return response()->noContent();
     }
-
 
     public function show($id)
     {
@@ -61,13 +69,10 @@ class NewsUpdateController extends Controller
 
         // Get the other recent news updates
         $otherNewsUpdates = NewsUpdate::where('status', 'published')
-            ->where('update_id', '!=', $id) // Exclude the current news update
+            ->where('update_id', '!=', $id)
             ->latest()
-            ->take(5) // Limit the number of recent news
+            ->take(5)
             ->get();
-
-        // Format the description for the "Read More" label
-        $descriptionPreview = substr($newsUpdate->description, 0, 100); // Preview the first 100 characters
 
         return response()->json([
             'message' => 'News update retrieved successfully!',
@@ -83,19 +88,17 @@ class NewsUpdateController extends Controller
     {
         // Validate the request with optional fields
         $validated = $request->validate([
-            'title' => 'required|string|max:255', // Title is optional
-            'description' => 'required|string', // Description is optional
-            'image' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048', // Image is optional
-            'status' => 'nullable|in:published,draft', // Status is optional
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'image' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'status' => 'nullable|in:published,draft',
         ]);
 
         // Handle the image upload
-        $imagePath = null;
+        $imagePath = $newsUpdate->image_path;
 
         if ($request->hasFile('image')) {
             $imagePath = Storage::url($request->file('image')->store('images/news_updates', 'public'));
-        } else {
-            $imagePath = $newsUpdate->image_path;
         }
 
         // Update the news update
@@ -106,9 +109,16 @@ class NewsUpdateController extends Controller
             'status' => $validated['status'] ?? 'draft',
         ]);
 
+        // Log the activity
+        ActivityLog::create([
+            'user_id' => auth()->id(),
+            'action' => 'updated',
+            'resource' => 'news_updates',
+            'resource_id' => $newsUpdate->id,
+        ]);
+
         return response()->noContent();
     }
-
 
     /**
      * Delete a specific news update along with its related comments.
@@ -116,6 +126,14 @@ class NewsUpdateController extends Controller
     public function destroy(NewsUpdate $newsUpdate)
     {
         $newsUpdate->delete();
+
+        // Log the activity
+        ActivityLog::create([
+            'user_id' => auth()->id(),
+            'action' => 'deleted',
+            'resource' => 'news_updates',
+            'resource_id' => $newsUpdate->id,
+        ]);
 
         return response()->noContent();
     }

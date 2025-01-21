@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\EventPost;
 use App\Models\Comment;
 use App\Models\Rating;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
@@ -36,6 +37,14 @@ class EventPostController extends Controller
             'status' => $status,
         ]);
 
+        // Log the activity
+        ActivityLog::create([
+            'user_id' => auth()->id(),
+            'action' => 'created',
+            'resource' => 'event_posts',
+            'resource_id' => $eventPost->id,
+        ]);
+
         return response()->json([
             'message' => 'Event post created successfully',
             'event_post' => $eventPost,
@@ -53,28 +62,20 @@ class EventPostController extends Controller
             return response()->json(['message' => 'Event post not found'], 404);
         }
 
-        // Fetching comments for the specific event post
         $comments = Comment::where('event_post_id', $id)->get();
-
-        // Fetching ratings only for the specific event post
         $ratings = Rating::where('event_post_id', $id)->get();
-
-        // Calculating the average rating for the specific event
         $averageRating = $ratings->avg('rating');
 
-        // Fetching previous and next events based on post_id
         $previousEvent = EventPost::where('post_id', '<', $id)->orderBy('post_id', 'desc')->first();
         $nextEvent = EventPost::where('post_id', '>', $id)->orderBy('post_id', 'asc')->first();
-
-        // Fetching other events (not the current one) for recommendations
         $otherEvents = EventPost::where('post_id', '!=', $id)->limit(5)->get();
 
         return response()->json([
             'event_post' => $eventPost,
             'comments' => $comments,
             'ratings' => [
-                'all_ratings' => $ratings, // Ratings specific to the event
-                'average_rating' => $averageRating, // Average rating for the specific event
+                'all_ratings' => $ratings,
+                'average_rating' => $averageRating,
             ],
             'navigation' => [
                 'previous_event' => $previousEvent,
@@ -90,8 +91,8 @@ class EventPostController extends Controller
     public function addComment(Request $request, $eventPostId): JsonResponse
     {
         $validated = $request->validate([
-            'content' => 'required|string|max:1000', // Validate comment content
-            'user_id' => 'required|exists:users,id', // Validate user ID
+            'content' => 'required|string|max:1000',
+            'user_id' => 'required|exists:users,id',
         ]);
 
         $eventPost = EventPost::find($eventPostId);
@@ -100,12 +101,19 @@ class EventPostController extends Controller
             return response()->json(['message' => 'Event post not found'], 404);
         }
 
-        // Create and save the comment
         $comment = Comment::create([
             'event_post_id' => $eventPostId,
             'comment_type' => 'event_post',
             'content' => $validated['content'],
             'user_id' => $validated['user_id'],
+        ]);
+
+        // Log the activity
+        ActivityLog::create([
+            'user_id' => $validated['user_id'],
+            'action' => 'added_comment',
+            'resource' => 'event_posts',
+            'resource_id' => $eventPostId,
         ]);
 
         return response()->json([
@@ -132,26 +140,28 @@ class EventPostController extends Controller
     }
 
     /**
- * Delete a specific event post along with its related data.
- */
-public function destroy($id): JsonResponse
-{
-    $eventPost = EventPost::find($id);
+     * Delete a specific event post along with its related data.
+     */
+    public function destroy($id): JsonResponse
+    {
+        $eventPost = EventPost::find($id);
 
-    if (!$eventPost) {
-        return response()->json(['message' => 'Event post not found'], 404);
+        if (!$eventPost) {
+            return response()->json(['message' => 'Event post not found'], 404);
+        }
+
+        Comment::where('event_post_id', $id)->delete();
+        Rating::where('event_post_id', $id)->delete();
+        $eventPost->delete();
+
+        // Log the activity
+        ActivityLog::create([
+            'user_id' => auth()->id(),
+            'action' => 'deleted',
+            'resource' => 'event_posts',
+            'resource_id' => $id,
+        ]);
+
+        return response()->json(['message' => 'Event post and its related data deleted successfully'], 200);
     }
-
-    // Delete comments related to the event post
-    Comment::where('event_post_id', $id)->delete();
-
-    // Delete ratings related to the event post
-    Rating::where('event_post_id', $id)->delete();
-
-    // Delete the event post itself
-    $eventPost->delete();
-
-    return response()->json(['message' => 'Event post and its related data deleted successfully'], 200);
-}
-
 }

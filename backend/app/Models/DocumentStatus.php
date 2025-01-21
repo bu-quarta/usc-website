@@ -13,7 +13,7 @@ class DocumentStatus extends Model
 
     // Relationship with documents
     public function document()
-    {
-        return $this->belongsTo(Document::class);
-    }
+{
+    return $this->belongsTo(Document::class);
+}
 }
