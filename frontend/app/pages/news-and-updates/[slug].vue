@@ -1,88 +1,74 @@
 <script setup lang="ts">
-  const text = `Lorem ipsum odor amet, consectetuer adipiscing elit. Habitant netus bibendum et nullam, consectetur duis aliquet blandit.
-Phasellus nullam hendrerit etiam conubia torquent natoque. Quisque sodales nam, imperdiet primis amet leo velit. Ex ipsum sit
-ullamcorper nunc morbi curabitur id quam. Dis eu sapien justo ante posuere neque elit tristique. Auctor viverra mi justo at eget.
-Nec vel posuere class tortor eget arcu morbi enim. 
+  import { Newspaper } from "lucide-vue-next"
 
-Nunc nunc aptent class suspendisse dictum sem viverra nisi. Tortor lobortis
-fusce conubia finibus feugiat est consequat augue. Ligula eros quisque vitae volutpat justo natoque quisque. Class torquent neque
-netus tempus taciti mus. Nulla aenean montes; ridiculus ultricies sociosqu dictum. Convallis viverra facilisis lobortis fames
-lacinia. Sed pulvinar tempor ullamcorper, adipiscing vivamus mi etiam.`
-
-  interface Comment {
-    iamge_url: string
-    name?: string | null
-    rating: number
-    comment: string
-    likes: number
-    dislikes: number
-    created_at: string
-  }
+  const slug = useRoute().params.slug
+  const { data, refresh } = await useAsyncData<NewsUpdateDetail>("news-update", () => useSanctumFetch(`/api/news-updates/${slug}`))
 
   const sortComment = ref()
 
-  const comments = ref<Comment[]>([
-    {
-      iamge_url: "",
-      name: "Dr. Baby Boy",
-      rating: 4,
-      comment:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum expedita laborum, pariatur ipsum vitae voluptatem alias esse quo. Veritatis explicabo modi, consequuntur porro voluptatum optio ratione obcaecati fugit repellendus accusantium?",
-      likes: 1200,
-      dislikes: 203,
-      created_at: "1hr",
-    },
-    {
-      iamge_url: "",
-      name: "Juan Dela Cruz",
-      rating: 0,
-      comment:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum expedita laborum, pariatur ipsum vitae voluptatem alias esse quo. Veritatis explicabo modi, consequuntur porro voluptatum optio ratione obcaecati fugit repellendus accusantium?",
-      likes: 100,
-      dislikes: 2103,
-      created_at: "1hr",
-    },
-    {
-      iamge_url: "",
-      rating: 0,
-      comment:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum expedita laborum, pariatur ipsum vitae voluptatem alias esse quo. Veritatis explicabo modi, consequuntur porro voluptatum optio ratione obcaecati fugit repellendus accusantium?",
-      likes: 1200,
-      dislikes: 203,
-      created_at: "Sept 21, 2023",
-    },
-    {
-      iamge_url: "",
-      name: "Juan Dela Cruz",
-      rating: 1,
-      comment:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum expedita laborum, pariatur ipsum vitae voluptatem alias esse quo. Veritatis explicabo modi, consequuntur porro voluptatum optio ratione obcaecati fugit repellendus accusantium?",
-      likes: 1200,
-      dislikes: 203,
-      created_at: "Oct 27, 2023",
-    },
-  ])
+  const comments = computed(() => {
+    if (!data?.value) return []
+
+    if (sortComment.value === "latest") {
+      return [...data.value.comments].sort((a, b) => new Date(b.created_at_iso).getTime() - new Date(a.created_at_iso).getTime())
+    }
+
+    if (sortComment.value === "most-liked") {
+      return [...data.value.comments].sort((a, b) => b.likes - a.likes)
+    }
+
+    if (sortComment.value === "oldest") {
+      return [...data.value.comments].sort((a, b) => new Date(a.created_at_iso).getTime() - new Date(b.created_at_iso).getTime())
+    }
+
+    return data.value.comments
+  }) as Ref<Comment[]>
+
+  const config = useRuntimeConfig()
+  const image_url = computed(() => `${config.public.backendUrl}${data?.value?.news_update.image_url}`)
+
+  const _comment = ref("")
+  const isAnonymously = ref(false)
+
+  const submit = async () => {
+    if (!_comment.value) return
+
+    const commentData = {
+      content: _comment.value,
+      comment_type: "news_update",
+      comment_type_id: data?.value?.news_update.id,
+      is_anonymous: isAnonymously.value,
+    }
+
+    try {
+      await useSanctumFetch(`/api/comments`, {
+        method: "POST",
+        body: JSON.stringify(commentData),
+      })
+
+      _comment.value = ""
+      await refresh()
+      sortComment.value = "latest"
+    } catch (error) {
+      console.error(error)
+    }
+  }
 </script>
 
 <template>
-  <div class="container px-32">
+  <div v-if="!!data" class="container px-32">
     <Card class="py-8 border-none">
       <CardContent>
-        <Skeleton class="h-96 w-full" />
+        <AspectRatio v-if="image_url" :ratio="2">
+          <NuxtImg :src="image_url" alt="news" class="rounded-md object-cover w-full h-full" />
+        </AspectRatio>
+        <Skeleton v-else class="h-96 w-full" />
         <CardHeader class="p-4">
-          <CardTitle>Lorem ipsum dolor sit amet consectetur adipisicing elit</CardTitle>
-          <CardDescription>
-            <div class="flex gap-8">
-              <p class="text-foreground">SEPTEMBER 15, 2024</p>
-              <p class="flex items-center gap-1">
-                <Icon name="mdi:location" />
-                <span>Bicol University Main Campus</span>
-              </p>
-            </div>
-          </CardDescription>
+          <CardTitle>{{ data?.news_update.title }}</CardTitle>
+          <CardDescription class="text-foreground uppercase font-medium">{{ data?.news_update.published_date }}</CardDescription>
         </CardHeader>
 
-        <p class="whitespace-pre-wrap p-4">{{ text }}</p>
+        <p class="whitespace-pre-wrap p-4">{{ data?.news_update.description }}</p>
 
         <div class="space-y-2">
           <p>Share this on</p>
@@ -107,14 +93,14 @@ lacinia. Sed pulvinar tempor ullamcorper, adipiscing vivamus mi etiam.`
       <CardContent class="space-y-2">
         <div class="grid w-full gap-2">
           <Label for="message">Comments</Label>
-          <Textarea id="message" placeholder="Write a comment" />
+          <Textarea id="message" v-model="_comment" placeholder="Write a comment" />
         </div>
         <div class="flex gap-2 justify-end">
           <div class="flex items-center space-x-2">
             <Label for="comment-anonymously">Comment Anonymously</Label>
-            <Switch id="comment-anonymously" />
+            <Switch id="comment-anonymously" v-model:checked="isAnonymously" />
           </div>
-          <Button size="sm" class="bg-[#0099CB] hover:bg-[#008ebe] uppercase">
+          <Button size="sm" class="bg-[#0099CB] hover:bg-[#008ebe] uppercase" @click="submit">
             Comment
             <Icon name="prime:send" size="18" />
           </Button>
@@ -132,7 +118,7 @@ lacinia. Sed pulvinar tempor ullamcorper, adipiscing vivamus mi etiam.`
             <SelectGroup>
               <SelectLabel />
               <SelectItem value="latest"> Latest </SelectItem>
-              <SelectItem value="most-likes"> Most Likes </SelectItem>
+              <SelectItem value="most-liked"> Most Likes </SelectItem>
               <SelectItem value="oldest"> Oldest </SelectItem>
             </SelectGroup>
           </SelectContent>
@@ -145,20 +131,20 @@ lacinia. Sed pulvinar tempor ullamcorper, adipiscing vivamus mi etiam.`
             <template v-for="comment in comments" :key="comment">
               <div class="flex gap-2">
                 <Avatar>
-                  <AvatarImage :src="comment.iamge_url" alt="@radix-vue" />
+                  <AvatarImage :src="comment.user?.avatar as string" alt="@radix-vue" />
                   <AvatarFallback class="flex items-center">
-                    <Icon v-if="!comment.name" name="mdi:anonymous" class="text-2xl text-muted-foreground" />
-                    {{ comment.name?.slice(0, 2).toLocaleUpperCase() }}
+                    <Icon v-if="!comment.user?.name" name="mdi:anonymous" class="text-2xl text-muted-foreground" />
+                    {{ comment.user?.name.slice(0, 2).toLocaleUpperCase() }}
                   </AvatarFallback>
                 </Avatar>
                 <div class="grid gap-2">
                   <div class="flex gap-3 items-center">
-                    <h5 class="font-medium">{{ comment.name ?? "Anonymous" }}</h5>
+                    <h5 class="font-medium">{{ comment.user?.name ?? "Anonymous" }}</h5>
                     <h5 class="text-muted-foreground">{{ comment.created_at }}</h5>
                   </div>
 
                   <h5 class="font-light">
-                    {{ comment.comment }}
+                    {{ comment.content }}
                   </h5>
 
                   <div class="flex gap-4">
@@ -181,20 +167,25 @@ lacinia. Sed pulvinar tempor ullamcorper, adipiscing vivamus mi etiam.`
       </CardContent>
     </Card>
 
-    <section id="" class="">
+    <section v-if="!!data.other_news_updates.length" id="other-news">
       <div class="flex items-center gap-2 pb-8">
         <p class="text-xl font-bold">Read More</p>
         <Separator class="flex-1" />
       </div>
 
       <div class="grid grid-cols-4 mt-2 gap-4">
-        <template v-for="i in 7" :key="i">
-          <NuxtLink to="/news-and-updates/slug">
-            <NewsAndUpdateCard />
+        <template v-for="_other_news in data.other_news_updates" :key="_other_news">
+          <NuxtLink :to="`/news-and-updates/${_other_news.slug}`">
+            <NewsAndUpdateCard :news-update="_other_news" />
           </NuxtLink>
         </template>
       </div>
     </section>
+  </div>
+
+  <div v-else class="container px-32 h-[50vh] flex flex-col justify-center items-center gap-2 select-none text-muted-foreground">
+    <Newspaper :size="32" />
+    <h4 class="font-semibold">News/Update not found.</h4>
   </div>
 </template>
 

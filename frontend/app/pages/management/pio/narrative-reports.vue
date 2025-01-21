@@ -5,7 +5,7 @@
 </script>
 
 <template>
-  <PioReport type="accomplishment-records" />
+  <PioReport type="narrative-reports" />
 </template>
 
 <style scoped></style>

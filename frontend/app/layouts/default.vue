@@ -45,13 +45,15 @@
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink> <NuxtLink to="/">HOME</NuxtLink> </BreadcrumbLink>
+                <BreadcrumbLink as-child> <NuxtLink to="/">HOME</NuxtLink> </BreadcrumbLink>
               </BreadcrumbItem>
               <template v-for="_route in _routes" :key="_route">
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                  <BreadcrumbLink>
-                    <NuxtLink :to="`${_route.path}`" class="uppercase"> {{ routeNameDic[_route.name] }}</NuxtLink>
+                  <BreadcrumbLink as-child>
+                    <NuxtLink :to="`${_route.path}`" class="uppercase">
+                      {{ routeNameDic[_route.name] ?? _route.name.replace(/-|%20/g, " ") }}</NuxtLink
+                    >
                   </BreadcrumbLink>
                 </BreadcrumbItem>
               </template>

@@ -3,7 +3,14 @@
 
   const { togglePioUploadReportDialog, togglePioEditReportDialog, togglePioDeleteReportDialog } = useStates()
   const props = defineProps<{
-    type: "financial-reports" | "audit-reports" | "accomplishment-records" | "glc-resolutions" | "other-documents"
+    type:
+      | "narrative-reports"
+      | "liquidation-reports"
+      | "financial-reports"
+      | "audit-reports"
+      | "evaluation-reports"
+      | "glc-resolutions"
+      | "other-documents"
   }>()
 
   const reportType = props.type.split("-")[0]

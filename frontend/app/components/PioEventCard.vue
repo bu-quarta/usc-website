@@ -1,39 +1,65 @@
 <script setup lang="ts">
   const { togglePioDeleteEventDialog, togglePioEditEventDialog } = useStates()
+
+  const props = defineProps<{ event: EventPost }>()
+  const emit = defineEmits(["delete", "edit"])
+
+  const config = useRuntimeConfig()
+  const image_url = computed(() => `${config.public.backendUrl}${props.event.image_url}`)
 </script>
 
 <template>
-  <Card class="border-none">
+  <Card class="border-none shadow-none">
     <CardContent class="p-0">
-      <Skeleton class="aspect-[3/2]" />
+      <AspectRatio v-if="image_url" :ratio="3 / 2">
+        <NuxtImg :src="image_url" alt="news" class="rounded-md object-cover w-full h-full" />
+      </AspectRatio>
+      <Skeleton v-else class="aspect-[3/2]" />
 
       <CardHeader class="px-0 py-2">
-        <CardTitle class="text-lg leading-tight line-clamp-2">Praesentium sed in corrupti odit architecto </CardTitle>
+        <CardTitle class="text-lg leading-tight line-clamp-2">{{ event.title }} </CardTitle>
         <h5 :class="`line-clamp-2 font-light leading-tight `">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde molestiae minima distinctio omnis Lorem ipsum dolor sit amet,
-          consectetur adipisicing elit. Consectetur, unde ipsa esse rem consequuntur fugit dolorum tempore at fugiat, eius neque expedita
-          totam asperiores iusto ad, natus assumenda rerum quod.
+          {{ event.description }}
         </h5>
 
         <div class="leading-tight">
           <h6 class="flex items-center gap-0.5">
-            <Icon name="mdi:location" />
-            <span>Bicol University Grounds, Main Campus</span>
+            <div>
+              <Icon name="mdi:location" />
+            </div>
+            <span class="truncate"> {{ event.location }} </span>
           </h6>
           <h6 class="flex items-center gap-0.5">
             <Icon name="mingcute:time-fill" />
-            <span> September 17, 2024 | 8:00 A.M. </span>
+            <span> {{ event.date_time }} </span>
           </h6>
         </div>
 
-        <CardDescription class="text-xs mt-0.5">POSTED | SEPTEMBER 15, 20241 | 1:00 P.M. </CardDescription>
+        <CardDescription class="text-xs mt-0.5">POSTED | {{ event.date_time_posted }} </CardDescription>
       </CardHeader>
       <div class="flex gap-2">
-        <Button size="sm" @click="togglePioEditEventDialog = true">
+        <Button
+          size="sm"
+          @click="
+            () => {
+              emit('edit')
+              togglePioEditEventDialog = true
+            }
+          "
+        >
           <Icon name="basil:edit-outline" class="-mt-0.5" />
           <span>Edit</span>
         </Button>
-        <Button size="sm" variant="destructive" @click="togglePioDeleteEventDialog = true">
+        <Button
+          size="sm"
+          variant="destructive"
+          @click="
+            () => {
+              emit('delete')
+              togglePioDeleteEventDialog = true
+            }
+          "
+        >
           <Icon name="material-symbols:delete-outline-rounded" class="-mt-0.5" />
           <span>Delete</span>
         </Button>

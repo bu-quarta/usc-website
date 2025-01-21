@@ -1,4 +1,21 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  const { data } = await useAsyncData<EventPost[]>("event-post", () =>
+    useSanctumFetch(`/api/event-posts`, {
+      query: {
+        client: true,
+      },
+    })
+  )
+
+  const firstOngoing = computed(() => data?.value?.find((event) => event.status === "ONGOING"))
+  const pastEvents = computed(() => data?.value?.filter((event) => event.status === "PAST"))
+  const upcommingOngoingEvents = computed(() =>
+    data?.value?.filter((event) => event.status !== "PAST" && event.id !== firstOngoing.value?.id)
+  )
+
+  const config = useRuntimeConfig()
+  const image_url = computed(() => `${config.public.backendUrl}${firstOngoing.value?.image_url}`)
+</script>
 
 <template>
   <div>
@@ -14,45 +31,48 @@
       </div>
 
       <div class="grid grid-cols-4 mt-8 gap-4">
-        <div class="col-span-2">
-          <NuxtLink to="/events/slug">
-            <Card class="h-full border-none">
-              <CardContent class="h-full flex flex-col p-0">
-                <Skeleton class="flex-1" />
+        <div v-if="firstOngoing" class="col-span-2">
+          <NuxtLink :to="`/events/${firstOngoing.slug}`">
+            <Card class="border-none">
+              <CardContent class="flex flex-col p-0">
+                <AspectRatio v-if="image_url" :ratio="2">
+                  <NuxtImg :src="image_url" alt="news" class="rounded-md object-cover w-full h-full" />
+                </AspectRatio>
+                <Skeleton v-else class="flex-1" />
 
                 <div class="space-y-4 text-xs pb-5">
                   <div class="space-y-2 mt-4">
                     <Label class="font-medium uppercase text-xs text-[#FFA200]">Ongoing</Label>
-                    <p class="text-lg font-semibold leading-5 truncate">Praesentium sed in corrupti lorem odit architecto</p>
-                    <p>SEPTEMBER 15, 2024</p>
+                    <p class="text-lg font-semibold leading-5 truncate">{{ firstOngoing.title }}</p>
+                    <p>{{ firstOngoing.date_time }}</p>
                   </div>
                   <div class="flex items-start gap-1">
                     <Icon name="mdi:location" class="size-4" />
-                    <p>Bicol University Main Campus</p>
+                    <p>{{ firstOngoing.location }}</p>
                   </div>
                 </div>
               </CardContent>
             </Card>
           </NuxtLink>
         </div>
-        <template v-for="i in 2" :key="i">
-          <NuxtLink to="/events/slug">
-            <EventCard />
+        <template v-for="upcommingOngoingEvent in upcommingOngoingEvents" :key="upcommingOngoingEvent">
+          <NuxtLink :to="`/events/${upcommingOngoingEvent.slug}`">
+            <EventCard :event-post="upcommingOngoingEvent" class="col-span-2" />
           </NuxtLink>
         </template>
       </div>
     </section>
 
-    <section id="" class="container px-16 py-8">
+    <section v-if="!!pastEvents?.length" id="" class="container px-16 py-8">
       <div class="flex items-center gap-2 pb-8">
         <p class="text-xl font-bold">Past Events</p>
         <Separator class="flex-1" />
       </div>
 
       <div class="grid grid-cols-4 mt-8 gap-4">
-        <template v-for="i in 4" :key="i">
-          <NuxtLink to="/events/slug">
-            <EventCard past-events />
+        <template v-for="pastEvent in pastEvents" :key="pastEvent">
+          <NuxtLink :to="`/events/${pastEvent.slug}`">
+            <EventCard :event-post="pastEvent" past-event />
           </NuxtLink>
         </template>
       </div>

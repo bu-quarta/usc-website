@@ -43,15 +43,60 @@ interface Report {
 interface User {
   name: string
   email: string
+  avatar: string
   roles: string[]
 }
 
 interface NewsUpdate {
   id: number
   title: string
+  slug: string
   description: string
-  published_date: string
+  published_date: stringW
   image_url: string
   status: string
   date_time: string
+}
+
+interface EventPost {
+  id: number
+  title: string
+  slug: string
+  description: string
+  date_time: string
+  location: string
+  image_url: string
+  status: string
+  date_posted: string
+  date_time_posted: string
+}
+
+interface Comment {
+  id: number
+  user?: User
+  content: string
+  likes: number
+  dislikes: number
+  created_at: string
+  created_at_iso: string
+}
+
+interface EventPostDetail {
+  event_post: EventPost
+  comments: Comment[]
+  previous_event: {
+    slug: string
+    title: string
+  }
+  next_event: {
+    slug: string
+    title: string
+  }
+  other_events: EventPost[]
+}
+
+interface NewsUpdateDetail {
+  news_update: NewsUpdate
+  comments: Comment[]
+  other_news_updates: NewsUpdate[]
 }
