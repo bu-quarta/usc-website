@@ -63,7 +63,7 @@
       </div>
     </section>
 
-    <section id="" class="container px-16 py-8">
+    <section v-if="!!pastEvents?.length" id="" class="container px-16 py-8">
       <div class="flex items-center gap-2 pb-8">
         <p class="text-xl font-bold">Past Events</p>
         <Separator class="flex-1" />
