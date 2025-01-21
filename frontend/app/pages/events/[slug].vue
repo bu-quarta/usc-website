@@ -1,13 +1,5 @@
 <script setup lang="ts">
-  const text = `Lorem ipsum odor amet, consectetuer adipiscing elit. Habitant netus bibendum et nullam, consectetur duis aliquet blandit.
-Phasellus nullam hendrerit etiam conubia torquent natoque. Quisque sodales nam, imperdiet primis amet leo velit. Ex ipsum sit
-ullamcorper nunc morbi curabitur id quam. Dis eu sapien justo ante posuere neque elit tristique. Auctor viverra mi justo at eget.
-Nec vel posuere class tortor eget arcu morbi enim. 
-
-Nunc nunc aptent class suspendisse dictum sem viverra nisi. Tortor lobortis
-fusce conubia finibus feugiat est consequat augue. Ligula eros quisque vitae volutpat justo natoque quisque. Class torquent neque
-netus tempus taciti mus. Nulla aenean montes; ridiculus ultricies sociosqu dictum. Convallis viverra facilisis lobortis fames
-lacinia. Sed pulvinar tempor ullamcorper, adipiscing vivamus mi etiam.`
+  import { CalendarOff } from "lucide-vue-next"
 
   interface Comment {
     iamge_url: string
@@ -18,6 +10,9 @@ lacinia. Sed pulvinar tempor ullamcorper, adipiscing vivamus mi etiam.`
     dislikes: number
     created_at: string
   }
+
+  const slug = useRoute().params.slug
+  const { data } = await useAsyncData<EventPostDetail>("event-post", () => useSanctumFetch(`/api/event-posts/${slug}`))
 
   const sortComment = ref()
   const currentRating = ref(0)
@@ -71,19 +66,19 @@ lacinia. Sed pulvinar tempor ullamcorper, adipiscing vivamus mi etiam.`
 </script>
 
 <template>
-  <div class="container px-32">
+  <div v-if="!!data" class="container px-32">
     <Card class="py-8 border-none">
       <CardContent>
         <Skeleton class="h-96 w-full" />
         <div class="flex justify-between items-center p-4">
           <CardHeader class="p-0">
-            <CardTitle>Lorem ipsum dolor sit amet consectetur adipisicing elit</CardTitle>
+            <CardTitle>{{ data?.event_post.title }}</CardTitle>
             <CardDescription>
               <div class="flex gap-8">
-                <p class="text-foreground">SEPTEMBER 15, 2024</p>
+                <p class="text-foreground">{{ data?.event_post.date_time }}</p>
                 <p class="flex items-center gap-1">
                   <Icon name="mdi:location" />
-                  <span>Bicol University Main Campus</span>
+                  <span>{{ data?.event_post.location }}</span>
                 </p>
               </div>
             </CardDescription>
@@ -94,7 +89,7 @@ lacinia. Sed pulvinar tempor ullamcorper, adipiscing vivamus mi etiam.`
           </Button>
         </div>
 
-        <p class="whitespace-pre-wrap p-4">{{ text }}</p>
+        <p class="whitespace-pre-wrap p-4">{{ data?.event_post.description }}</p>
 
         <div class="space-y-2">
           <p>Share this on</p>
@@ -112,24 +107,28 @@ lacinia. Sed pulvinar tempor ullamcorper, adipiscing vivamus mi etiam.`
         </div>
 
         <div class="flex justify-between py-4">
-          <NuxtLink to="">
-            <Card class="border-[#0099CB]">
-              <CardContent class="py-2 flex justify-between items-center w-44">
-                <Icon name="mingcute:arrow-left-line" />
-                <div class="font-semibold text-right">
-                  <p class="text-gray-500">Previous</p>
-                  <p class="text-[#0099CB]">Event Name</p>
-                </div>
-              </CardContent>
-            </Card>
-          </NuxtLink>
+          <div>
+            <NuxtLink v-if="!!data.previous_event.slug" :to="`/events/${data?.previous_event.slug}`">
+              <Card class="border-[#0099CB]">
+                <CardContent class="py-2 flex justify-between items-center w-44 gap-2">
+                  <div>
+                    <Icon name="mingcute:arrow-left-line" />
+                  </div>
+                  <div class="font-semibold text-right">
+                    <p class="text-gray-500">Previous</p>
+                    <p class="text-[#0099CB] line-clamp-1">{{ data.previous_event.title }}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </NuxtLink>
+          </div>
 
-          <NuxtLink to="">
+          <NuxtLink v-if="!!data.next_event.slug" :to="`/events/${data?.next_event.slug}`">
             <Card class="bg-[#0099CB] border-[#0099CB]">
               <CardContent class="py-2 flex justify-between items-center w-44">
                 <div class="font-semibold">
                   <p class="text-[#FFFFFFBF]">Next</p>
-                  <p class="text-secondary">Event Name</p>
+                  <p class="text-secondary">{{ data.next_event.title }}</p>
                 </div>
                 <Icon name="mingcute:arrow-right-line" class="text-[#FFFFFFBF]" />
               </CardContent>
@@ -148,12 +147,12 @@ lacinia. Sed pulvinar tempor ullamcorper, adipiscing vivamus mi etiam.`
       <div class="flex items-center justify-center gap-2 py-4">
         <template v-for="i in 5" :key="i">
           <svg
-            @click="setRating(i)"
             class="w-10 h-10 me-1 cursor-pointer"
             :class="i <= currentRating ? 'text-[#FFA200] fill-current' : 'fill-neutral-400'"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 22 20"
+            @click="setRating(i)"
           >
             <path
               d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
@@ -207,7 +206,7 @@ lacinia. Sed pulvinar tempor ullamcorper, adipiscing vivamus mi etiam.`
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectLabel></SelectLabel>
+              <SelectLabel />
               <SelectItem value="latest"> Latest </SelectItem>
               <SelectItem value="most-likes"> Most Likes </SelectItem>
               <SelectItem value="oldest"> Oldest </SelectItem>
@@ -219,19 +218,19 @@ lacinia. Sed pulvinar tempor ullamcorper, adipiscing vivamus mi etiam.`
 
         <Card class="border-none">
           <CardContent class="px-0 space-y-6">
-            <template v-for="comment in comments" :key="commnent">
+            <template v-for="comment in comments" :key="comment">
               <div class="flex gap-2">
                 <Avatar>
                   <AvatarImage :src="comment.iamge_url" alt="@radix-vue" />
                   <AvatarFallback class="flex items-center">
-                    <Icon name="mdi:anonymous" class="text-2xl text-muted-foreground" v-if="!comment.name" />
+                    <Icon v-if="!comment.name" name="mdi:anonymous" class="text-2xl text-muted-foreground" />
                     {{ comment.name?.slice(0, 2).toLocaleUpperCase() }}
                   </AvatarFallback>
                 </Avatar>
                 <div class="grid gap-2">
                   <div class="flex gap-3 items-center">
                     <h5 class="font-medium">{{ comment.name ?? "Anonymous" }}</h5>
-                    <div class="flex items-center justify-center" v-if="!!comment.rating">
+                    <div v-if="!!comment.rating" class="flex items-center justify-center">
                       <template v-for="i in 5" :key="i">
                         <svg
                           class="w-3 h-3 me-1"
@@ -280,13 +279,18 @@ lacinia. Sed pulvinar tempor ullamcorper, adipiscing vivamus mi etiam.`
       </div>
 
       <div class="grid grid-cols-4 mt-2 gap-4">
-        <template v-for="i in 4" :key="i">
-          <NuxtLink to="/events/slug">
-            <EventCard past-events />
+        <template v-for="other_event in data.other_events" :key="other_event">
+          <NuxtLink :to="`/events/${other_event.slug}`">
+            <EventCard :event-post="other_event as EventPost" past-events />
           </NuxtLink>
         </template>
       </div>
     </section>
+  </div>
+
+  <div v-else class="container px-32 h-[50vh] flex flex-col justify-center items-center gap-2 select-none text-muted-foreground">
+    <CalendarOff :size="32" />
+    <h4 class="font-semibold">Event not found.</h4>
   </div>
 </template>
 

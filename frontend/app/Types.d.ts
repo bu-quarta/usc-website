@@ -59,6 +59,7 @@ interface NewsUpdate {
 interface EventPost {
   id: number
   title: string
+  slug: string
   description: string
   date_time: string
   location: string
@@ -66,4 +67,17 @@ interface EventPost {
   status: string
   date_posted: string
   date_time_posted: string
+}
+
+interface EventPostDetail {
+  event_post: EventPost
+  previous_event: {
+    slug: string
+    title: string
+  }
+  next_event: {
+    slug: string
+    title: string
+  }
+  other_events: EventPost[]
 }
