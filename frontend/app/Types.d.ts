@@ -43,6 +43,7 @@ interface Report {
 interface User {
   name: string
   email: string
+  avatar: string
   roles: string[]
 }
 
@@ -70,6 +71,16 @@ interface EventPost {
   date_time_posted: string
 }
 
+interface Comment {
+  id: number
+  user?: User
+  content: string
+  likes: number
+  dislikes: number
+  created_at: string
+  created_at_iso: string
+}
+
 interface EventPostDetail {
   event_post: EventPost
   previous_event: {
@@ -85,5 +96,6 @@ interface EventPostDetail {
 
 interface NewsUpdateDetail {
   news_update: NewsUpdate
+  comments: Comment[]
   other_news_updates: NewsUpdate[]
 }

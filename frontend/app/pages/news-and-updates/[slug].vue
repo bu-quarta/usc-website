@@ -1,65 +1,58 @@
 <script setup lang="ts">
   import { Newspaper } from "lucide-vue-next"
 
-  interface Comment {
-    iamge_url: string
-    name?: string | null
-    rating: number
-    comment: string
-    likes: number
-    dislikes: number
-    created_at: string
-  }
-
   const slug = useRoute().params.slug
-  const { data } = await useAsyncData<NewsUpdateDetail>("news-update", () => useSanctumFetch(`/api/news-updates/${slug}`))
+  const { data, refresh } = await useAsyncData<NewsUpdateDetail>("news-update", () => useSanctumFetch(`/api/news-updates/${slug}`))
 
   const sortComment = ref()
+
+  const comments = computed(() => {
+    if (!data?.value) return []
+
+    if (sortComment.value === "latest") {
+      return [...data.value.comments].sort((a, b) => new Date(b.created_at_iso).getTime() - new Date(a.created_at_iso).getTime())
+    }
+
+    if (sortComment.value === "most-liked") {
+      return [...data.value.comments].sort((a, b) => b.likes - a.likes)
+    }
+
+    if (sortComment.value === "oldest") {
+      return [...data.value.comments].sort((a, b) => new Date(a.created_at_iso).getTime() - new Date(b.created_at_iso).getTime())
+    }
+
+    return data.value.comments
+  })
 
   const config = useRuntimeConfig()
   const image_url = computed(() => `${config.public.backendUrl}${data?.value?.news_update.image_url}`)
 
-  const comments = ref<Comment[]>([
-    {
-      iamge_url: "",
-      name: "Dr. Baby Boy",
-      rating: 4,
-      comment:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum expedita laborum, pariatur ipsum vitae voluptatem alias esse quo. Veritatis explicabo modi, consequuntur porro voluptatum optio ratione obcaecati fugit repellendus accusantium?",
-      likes: 1200,
-      dislikes: 203,
-      created_at: "1hr",
-    },
-    {
-      iamge_url: "",
-      name: "Juan Dela Cruz",
-      rating: 0,
-      comment:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum expedita laborum, pariatur ipsum vitae voluptatem alias esse quo. Veritatis explicabo modi, consequuntur porro voluptatum optio ratione obcaecati fugit repellendus accusantium?",
-      likes: 100,
-      dislikes: 2103,
-      created_at: "1hr",
-    },
-    {
-      iamge_url: "",
-      rating: 0,
-      comment:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum expedita laborum, pariatur ipsum vitae voluptatem alias esse quo. Veritatis explicabo modi, consequuntur porro voluptatum optio ratione obcaecati fugit repellendus accusantium?",
-      likes: 1200,
-      dislikes: 203,
-      created_at: "Sept 21, 2023",
-    },
-    {
-      iamge_url: "",
-      name: "Juan Dela Cruz",
-      rating: 1,
-      comment:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum expedita laborum, pariatur ipsum vitae voluptatem alias esse quo. Veritatis explicabo modi, consequuntur porro voluptatum optio ratione obcaecati fugit repellendus accusantium?",
-      likes: 1200,
-      dislikes: 203,
-      created_at: "Oct 27, 2023",
-    },
-  ])
+  const _comment = ref("")
+  const isAnonymously = ref(false)
+
+  const submit = async () => {
+    if (!_comment.value) return
+
+    const commentData = {
+      content: _comment.value,
+      comment_type: "news_update",
+      comment_type_id: data?.value?.news_update.id,
+      is_anonymous: isAnonymously.value,
+    }
+
+    try {
+      await useSanctumFetch(`/api/comments`, {
+        method: "POST",
+        body: JSON.stringify(commentData),
+      })
+
+      _comment.value = ""
+      await refresh()
+      sortComment.value = "latest"
+    } catch (error) {
+      console.error(error)
+    }
+  }
 </script>
 
 <template>
@@ -100,14 +93,14 @@
       <CardContent class="space-y-2">
         <div class="grid w-full gap-2">
           <Label for="message">Comments</Label>
-          <Textarea id="message" placeholder="Write a comment" />
+          <Textarea id="message" v-model="_comment" placeholder="Write a comment" />
         </div>
         <div class="flex gap-2 justify-end">
           <div class="flex items-center space-x-2">
             <Label for="comment-anonymously">Comment Anonymously</Label>
-            <Switch id="comment-anonymously" />
+            <Switch id="comment-anonymously" v-model:checked="isAnonymously" />
           </div>
-          <Button size="sm" class="bg-[#0099CB] hover:bg-[#008ebe] uppercase">
+          <Button size="sm" class="bg-[#0099CB] hover:bg-[#008ebe] uppercase" @click="submit">
             Comment
             <Icon name="prime:send" size="18" />
           </Button>
@@ -125,7 +118,7 @@
             <SelectGroup>
               <SelectLabel />
               <SelectItem value="latest"> Latest </SelectItem>
-              <SelectItem value="most-likes"> Most Likes </SelectItem>
+              <SelectItem value="most-liked"> Most Likes </SelectItem>
               <SelectItem value="oldest"> Oldest </SelectItem>
             </SelectGroup>
           </SelectContent>
@@ -138,20 +131,20 @@
             <template v-for="comment in comments" :key="comment">
               <div class="flex gap-2">
                 <Avatar>
-                  <AvatarImage :src="comment.iamge_url" alt="@radix-vue" />
+                  <AvatarImage :src="comment.user?.avatar as string" alt="@radix-vue" />
                   <AvatarFallback class="flex items-center">
-                    <Icon v-if="!comment.name" name="mdi:anonymous" class="text-2xl text-muted-foreground" />
-                    {{ comment.name?.slice(0, 2).toLocaleUpperCase() }}
+                    <Icon v-if="!comment.user?.name" name="mdi:anonymous" class="text-2xl text-muted-foreground" />
+                    {{ comment.user?.name.slice(0, 2).toLocaleUpperCase() }}
                   </AvatarFallback>
                 </Avatar>
                 <div class="grid gap-2">
                   <div class="flex gap-3 items-center">
-                    <h5 class="font-medium">{{ comment.name ?? "Anonymous" }}</h5>
+                    <h5 class="font-medium">{{ comment.user?.name ?? "Anonymous" }}</h5>
                     <h5 class="text-muted-foreground">{{ comment.created_at }}</h5>
                   </div>
 
                   <h5 class="font-light">
-                    {{ comment.comment }}
+                    {{ comment.content }}
                   </h5>
 
                   <div class="flex gap-4">
