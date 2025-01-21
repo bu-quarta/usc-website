@@ -1,144 +1,19 @@
 <script setup lang="ts">
-  const reports = ref<Report[]>([
-    {
-      type: "Narrative Reports",
-      title: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      date: "September 15, 2024",
-      report_url: "#",
-    },
-    {
-      type: "Narrative Reports",
-      title: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      date: "September 15, 2024",
-      report_url: "#",
-    },
-    {
-      type: "Narrative Reports",
-      title: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      date: "September 15, 2024",
-      report_url: "#",
-    },
-    {
-      type: "Liquidation Reports",
-      title: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      date: "September 15, 2024",
-      report_url: "#",
-    },
-    {
-      type: "Liquidation Reports",
-      title: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      date: "September 15, 2024",
-      report_url: "#",
-    },
-    {
-      type: "Liquidation Reports",
-      title: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      date: "September 15, 2024",
-      report_url: "#",
-    },
-    {
-      type: "Financial Reports",
-      title: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      date: "September 15, 2024",
-      report_url: "#",
-    },
-    {
-      type: "Financial Reports",
-      title: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      date: "September 15, 2024",
-      report_url: "#",
-    },
-    {
-      type: "Financial Reports",
-      title: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      date: "September 15, 2024",
-      report_url: "#",
-    },
-    {
-      type: "Audit Reports",
-      title: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      date: "September 15, 2024",
-      report_url: "#",
-    },
-    {
-      type: "Audit Reports",
-      title: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      date: "September 15, 2024",
-      report_url: "#",
-    },
-    {
-      type: "Audit Reports",
-      title: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      date: "September 15, 2024",
-      report_url: "#",
-    },
-    {
-      type: "Evaluation Reports",
-      title: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      date: "September 15, 2024",
-      report_url: "#",
-    },
-    {
-      type: "Evaluation Reports",
-      title: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      date: "September 15, 2024",
-      report_url: "#",
-    },
-    {
-      type: "Evaluation Reports",
-      title: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      date: "September 15, 2024",
-      report_url: "#",
-    },
-    {
-      type: "GLC Resolutions",
-      title: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      date: "September 15, 2024",
-      status: "Approved",
-      report_url: "#",
-    },
+  const { data: reports } = await useAsyncData<Report[]>("reports", () => useSanctumFetch("/api/reports"))
 
-    {
-      type: "GLC Resolutions",
-      title: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      date: "September 15, 2024",
-      status: "Approved",
-      report_url: "#",
-    },
-    {
-      type: "GLC Resolutions",
-      title: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      date: "September 15, 2024",
-      status: "Lost",
-      report_url: "#",
-    },
-    {
-      type: "Others",
-      title: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      date: "September 15, 2024",
-      report_url: "#",
-    },
-    {
-      type: "Others",
-      title: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      date: "September 15, 2024",
-      report_url: "#",
-    },
-    {
-      type: "Others",
-      title: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      date: "September 15, 2024",
-      report_url: "#",
-    },
-  ] as Report[])
+  const reportTypeOrder = ["narrative", "liquidation", "financial", "audit", "evaluation", "glc", "other"]
 
-  const groupedReports = reports.value.reduce((acc, report) => {
-    if (!acc[report.type]) {
-      acc[report.type] = []
-    }
-    acc[report.type]?.push(report)
+  const groupedReports = reportTypeOrder.reduce((acc, type) => {
+    acc[type] = []
     return acc
   }, {} as Record<string, Report[]>)
+
+  reports?.value?.forEach((report) => {
+    const type = report.type.toLowerCase()
+    if (groupedReports[type]) {
+      groupedReports[type].push(report)
+    }
+  })
 </script>
 
 <template>
@@ -156,7 +31,9 @@
 
     <template v-for="(_reports, type) in groupedReports" :key="type">
       <section class="pb-8">
-        <TitleSeparator>{{ type }} Reports</TitleSeparator>
+        <TitleSeparator class="capitalize">
+          <span :class="type == 'glc' ? 'uppercase' : ''">{{ type }}</span> reports
+        </TitleSeparator>
         <div class="grid grid-cols-3 mt-8 gap-4 px-6">
           <template v-for="report in _reports" :key="report">
             <ReportCard :report="report" />
