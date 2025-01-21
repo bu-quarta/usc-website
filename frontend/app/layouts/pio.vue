@@ -5,6 +5,14 @@
 
   const reports = [
     {
+      title: "Narrative Reports",
+      url: "/management/pio/narrative-reports",
+    },
+    {
+      title: "Liquidation Reports",
+      url: "/management/pio/liquidation-reports",
+    },
+    {
       title: "Financial Reports",
       url: "/management/pio/financial-reports",
     },
@@ -13,8 +21,8 @@
       url: "/management/pio/audit-reports",
     },
     {
-      title: "Accomplishment Records",
-      url: "/management/pio/accomplishment-records",
+      title: "Evaluation Reports",
+      url: "/management/pio/evaluation-reports",
     },
     {
       title: "GLC Resolutions",
@@ -32,9 +40,11 @@
   const routeDic: { [key: string]: string } = {
     "news-and-updates": "News and Updates",
     events: "Events",
+    "narrative-reports": "Narrative Reports",
+    "liquidation-reports": "Liquidation Reports",
     "financial-reports": "Financial Reports",
     "audit-reports": "Audit Report",
-    "accomplishment-records": "Accomplishment Records",
+    "evaluation-reports": "Evaluation Reports",
     "glc-resolutions": "GLC Resolutions",
     "other-documents": "Other Documents",
   }
