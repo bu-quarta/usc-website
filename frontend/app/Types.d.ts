@@ -49,6 +49,7 @@ interface User {
 interface NewsUpdate {
   id: number
   title: string
+  slug: string
   description: string
   published_date: stringW
   image_url: string
@@ -80,4 +81,9 @@ interface EventPostDetail {
     title: string
   }
   other_events: EventPost[]
+}
+
+interface NewsUpdateDetail {
+  news_update: NewsUpdate
+  other_news_updates: NewsUpdate[]
 }

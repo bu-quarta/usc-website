@@ -1,13 +1,5 @@
 <script setup lang="ts">
-  const text = `Lorem ipsum odor amet, consectetuer adipiscing elit. Habitant netus bibendum et nullam, consectetur duis aliquet blandit.
-Phasellus nullam hendrerit etiam conubia torquent natoque. Quisque sodales nam, imperdiet primis amet leo velit. Ex ipsum sit
-ullamcorper nunc morbi curabitur id quam. Dis eu sapien justo ante posuere neque elit tristique. Auctor viverra mi justo at eget.
-Nec vel posuere class tortor eget arcu morbi enim. 
-
-Nunc nunc aptent class suspendisse dictum sem viverra nisi. Tortor lobortis
-fusce conubia finibus feugiat est consequat augue. Ligula eros quisque vitae volutpat justo natoque quisque. Class torquent neque
-netus tempus taciti mus. Nulla aenean montes; ridiculus ultricies sociosqu dictum. Convallis viverra facilisis lobortis fames
-lacinia. Sed pulvinar tempor ullamcorper, adipiscing vivamus mi etiam.`
+  import { Newspaper } from "lucide-vue-next"
 
   interface Comment {
     iamge_url: string
@@ -19,7 +11,13 @@ lacinia. Sed pulvinar tempor ullamcorper, adipiscing vivamus mi etiam.`
     created_at: string
   }
 
+  const slug = useRoute().params.slug
+  const { data } = await useAsyncData<NewsUpdateDetail>("news-update", () => useSanctumFetch(`/api/news-updates/${slug}`))
+
   const sortComment = ref()
+
+  const config = useRuntimeConfig()
+  const image_url = computed(() => `${config.public.backendUrl}${data?.value?.news_update.image_url}`)
 
   const comments = ref<Comment[]>([
     {
@@ -65,24 +63,19 @@ lacinia. Sed pulvinar tempor ullamcorper, adipiscing vivamus mi etiam.`
 </script>
 
 <template>
-  <div class="container px-32">
+  <div v-if="!!data" class="container px-32">
     <Card class="py-8 border-none">
       <CardContent>
-        <Skeleton class="h-96 w-full" />
+        <AspectRatio v-if="image_url" :ratio="2">
+          <NuxtImg :src="image_url" alt="news" class="rounded-md object-cover w-full h-full" />
+        </AspectRatio>
+        <Skeleton v-else class="h-96 w-full" />
         <CardHeader class="p-4">
-          <CardTitle>Lorem ipsum dolor sit amet consectetur adipisicing elit</CardTitle>
-          <CardDescription>
-            <div class="flex gap-8">
-              <p class="text-foreground">SEPTEMBER 15, 2024</p>
-              <p class="flex items-center gap-1">
-                <Icon name="mdi:location" />
-                <span>Bicol University Main Campus</span>
-              </p>
-            </div>
-          </CardDescription>
+          <CardTitle>{{ data?.news_update.title }}</CardTitle>
+          <CardDescription class="text-foreground uppercase font-medium">{{ data?.news_update.published_date }}</CardDescription>
         </CardHeader>
 
-        <p class="whitespace-pre-wrap p-4">{{ text }}</p>
+        <p class="whitespace-pre-wrap p-4">{{ data?.news_update.description }}</p>
 
         <div class="space-y-2">
           <p>Share this on</p>
@@ -181,20 +174,25 @@ lacinia. Sed pulvinar tempor ullamcorper, adipiscing vivamus mi etiam.`
       </CardContent>
     </Card>
 
-    <section id="" class="">
+    <section v-if="!!data.other_news_updates.length" id="other-news">
       <div class="flex items-center gap-2 pb-8">
         <p class="text-xl font-bold">Read More</p>
         <Separator class="flex-1" />
       </div>
 
       <div class="grid grid-cols-4 mt-2 gap-4">
-        <template v-for="i in 7" :key="i">
-          <NuxtLink to="/news-and-updates/slug">
-            <NewsAndUpdateCard />
+        <template v-for="_other_news in data.other_news_updates" :key="_other_news">
+          <NuxtLink :to="`/news-and-updates/${_other_news.slug}`">
+            <NewsAndUpdateCard :news-update="_other_news" />
           </NuxtLink>
         </template>
       </div>
     </section>
+  </div>
+
+  <div v-else class="container px-32 h-[50vh] flex flex-col justify-center items-center gap-2 select-none text-muted-foreground">
+    <Newspaper :size="32" />
+    <h4 class="font-semibold">News/Update not found.</h4>
   </div>
 </template>
 
