@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import { Calendar } from "lucide-vue-next"
+
   const { data } = await useAsyncData<EventPost[]>("event-post", () =>
     useSanctumFetch(`/api/event-posts`, {
       query: {
@@ -18,7 +20,7 @@
 </script>
 
 <template>
-  <div>
+  <div v-if="!!data?.length">
     <section id="events" class="container px-16 pb-8">
       <div class="flex justify-between">
         <h1 class="text-xl font-bold">USC Events</h1>
@@ -77,6 +79,13 @@
         </template>
       </div>
     </section>
+  </div>
+
+  <div v-else class="flex items-center justify-center h-[50vh]">
+    <div class="flex flex-col items-center gap-2 text-muted-foreground">
+      <component :is="Calendar" />
+      <h5 class="text-center">No events found.</h5>
+    </div>
   </div>
 </template>
 
