@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  const { data: cscs } = useAsyncData<CscDirectory[]>("cscs", () => useSanctumFetch("/api/cscs"))
+  const { data: cscs } = await useAsyncData<CscDirectory[]>("cscs", () => useSanctumFetch("/api/cscs"))
 
   const config = useRuntimeConfig()
 </script>
