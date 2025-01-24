@@ -61,7 +61,7 @@
         formData.append("image", file.value)
       }
 
-      await useSanctumFetch(`/api/news-updates/${props.newsUpdate.id}`, {
+      await useSanctumFetch(`/api/pio/news-updates/${props.newsUpdate.id}`, {
         method: "PATCH",
         body: formData,
       })

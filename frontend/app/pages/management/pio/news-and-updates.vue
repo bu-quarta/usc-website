@@ -6,7 +6,7 @@
   })
 
   const { togglePioUploadNewsAndUpdateDialog } = useStates()
-  const { data, refresh } = await useAsyncData<NewsUpdate[]>("news-update", () => useSanctumFetch(`/api/news-updates`))
+  const { data, refresh } = await useAsyncData<NewsUpdate[]>("news-update", () => useSanctumFetch(`/api/pio/news-updates`))
 
   const groupedNews = computed(() => {
     return data?.value?.reduce((acc, news) => {

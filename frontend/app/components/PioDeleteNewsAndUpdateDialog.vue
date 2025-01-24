@@ -7,7 +7,7 @@
   const emit = defineEmits(["delete"])
 
   const deleteNewsUpdates = async () => {
-    await useSanctumFetch(`/api/news-updates/${props.newsUpdateId}`, {
+    await useSanctumFetch(`/api/pio/news-updates/${props.newsUpdateId}`, {
       method: "DELETE",
     })
     emit("delete")

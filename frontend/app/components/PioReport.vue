@@ -16,7 +16,7 @@
   const reportType = props.type.split("-")[0]
 
   const { data, refresh } = await useAsyncData<Report[]>("reports", () =>
-    useSanctumFetch(`/api/reports`, {
+    useSanctumFetch(`/api/pio/reports`, {
       query: {
         type: reportType,
       },

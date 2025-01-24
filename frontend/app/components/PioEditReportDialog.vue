@@ -55,7 +55,7 @@
       }
       formData.append("name", title.value)
 
-      await useSanctumFetch(`/api/reports/${props.report.id}`, {
+      await useSanctumFetch(`/api/pio/reports/${props.report.id}`, {
         method: "patch",
         body: formData,
       })

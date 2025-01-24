@@ -47,7 +47,7 @@
         formData.append("image", file.value)
       }
 
-      await useSanctumFetch("/api/event-posts", {
+      await useSanctumFetch("/api/pio/event-posts", {
         method: "POST",
         body: formData,
       })

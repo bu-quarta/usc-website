@@ -1,6 +1,4 @@
 <script setup lang="ts">
-  import DialogDescription from "./ui/dialog/DialogDescription.vue"
-
   const { toggleLoginDialog, loginDialogShown } = useStates()
   const { isLoggedIn } = useSanctum()
   const backendUrl = useRuntimeConfig().public.backendUrl

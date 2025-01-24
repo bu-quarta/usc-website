@@ -73,13 +73,13 @@
         formData.append("image", file.value)
       }
 
-      await useSanctumFetch(`/api/event-posts/${props.event.id}`, {
+      await useSanctumFetch(`/api/pio/event-posts/${props.event.id}`, {
         method: "PATCH",
         body: formData,
       })
 
       toast({
-        title: "The event has been uploaded successfully.",
+        title: "The event has been updated successfully.",
         duration: 1500,
       })
       emit("update")

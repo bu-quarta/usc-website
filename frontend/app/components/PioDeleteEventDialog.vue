@@ -5,7 +5,7 @@
   const emit = defineEmits(["delete"])
 
   const deleteEvent = async () => {
-    await useSanctumFetch(`/api/event-posts/${props.eventId}`, {
+    await useSanctumFetch(`/api/pio/event-posts/${props.eventId}`, {
       method: "DELETE",
     })
     emit("delete")

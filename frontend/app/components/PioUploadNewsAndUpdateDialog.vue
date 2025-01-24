@@ -40,7 +40,7 @@
         formData.append("image", file.value)
       }
 
-      await useSanctumFetch("/api/news-updates", {
+      await useSanctumFetch("/api/pio/news-updates", {
         method: "POST",
         body: formData,
       })

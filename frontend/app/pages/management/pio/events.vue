@@ -7,7 +7,7 @@
 
   const { togglePioUploadEventDialog } = useStates()
 
-  const { data, refresh } = await useAsyncData<EventPost[]>("event-posts", () => useSanctumFetch(`/api/event-posts`))
+  const { data, refresh } = await useAsyncData<EventPost[]>("event-posts", () => useSanctumFetch(`/api/pio/event-posts`))
 
   const groupEvents = computed(() => {
     return data?.value?.reduce((acc, event) => {

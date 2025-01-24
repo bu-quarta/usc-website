@@ -42,7 +42,7 @@
       formData.append("file", file.value)
       formData.append("name", title.value)
 
-      await useSanctumFetch("/api/reports", {
+      await useSanctumFetch("/api/pio/reports", {
         method: "POST",
         body: formData,
       })
