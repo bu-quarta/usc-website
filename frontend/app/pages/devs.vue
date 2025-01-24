@@ -9,10 +9,9 @@
     <section id="intro" class="pb-8 space-y-2">
       <p class="font-bold text-xl">Meet the Developers</p>
       <p class="grid grid-cols-2">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla hendrerit ligula in quam sagittis elementum. Curabitur non pretium
-        velit. Etiam in lobortis mauris. Nulla ornare mi eu sapien imperdiet, id varius justo fringilla. Nullam vitae lacinia libero.
-        Vestibulum in nisi leo. Integer tincidunt, turpis id maximus viverra, lacus augue egestas nibh, non efficitur ligula nulla at
-        lectus.
+        Behind the University Student Council website is a dedicated team of developers who worked passionately to bring the platform to
+        life. With a vision of enhancing communication, transparency, and engagement, they crafted an accessible and user-friendly space for
+        students to stay informed, connect with the council, and access important updates seamlessly.
       </p>
     </section>
 
