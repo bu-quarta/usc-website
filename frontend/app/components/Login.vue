@@ -22,8 +22,8 @@
   <Dialog v-model:open="toggleLoginDialog">
     <DialogContent class="w-96">
       <DialogHeader class="flex justify-center items-center">
-        <div class="aspect-square">
-          <NuxtImg src="/images/usc-logo.jpg" />
+        <div class="aspect-square w-1/2">
+          <NuxtImg src="/images/usc-logo.png" />
         </div>
         <div class="leading-tight text-center">
           <DialogDescription>Welcome to the BU USC Website!</DialogDescription>

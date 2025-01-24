@@ -13,22 +13,18 @@ interface CitizensCharter {
   officers: Officer[]
 }
 
-interface Csc {
-  name: string
-  image_url: string
-  abbreviation: string
-}
-
 interface Csr {
   name: string
-  school_year: string
+  type: string
   college: string
+  year_range: string
 }
 
 interface Dev {
   name: string
   position: string
   college: string
+  image_url: string
 }
 
 interface Report {
@@ -99,4 +95,35 @@ interface NewsUpdateDetail {
   news_update: NewsUpdate
   comments: Comment[]
   other_news_updates: NewsUpdate[]
+}
+
+interface UscOfficial {
+  id: number
+  name: string
+  college: string
+  position: string
+  email: string
+  image_url: string
+}
+
+interface UscAdviser {
+  id: number
+  name: string
+  position: string
+  type: string
+  image_url: string
+}
+
+interface CscDirectory {
+  name: string
+  abbr: string
+  slug: string
+  image_url: string
+}
+
+interface CscOfficial {
+  id: number
+  name: string
+  position: string
+  email: string
 }

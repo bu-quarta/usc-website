@@ -16,15 +16,15 @@
         </div>
       </div>
 
-      <div id="logos" class="flex justify-center gap-8 col-span-2">
-        <div class="aspect-square bg-white">
+      <div id="logos" class="flex justify-center col-span-2">
+        <div class="aspect-square">
           <AspectRatio class="place-content-center">
-            <NuxtImg src="/images/bu-logo.png" class="w-full" />
+            <NuxtImg src="/images/bu-logo.png" class="w-3/4" />
           </AspectRatio>
         </div>
-        <div class="aspect-square bg-white">
+        <div class="aspect-square">
           <AspectRatio class="place-content-center">
-            <NuxtImg src="/images/usc-logo.jpg" class="w-full" />
+            <NuxtImg src="/images/usc-logo.png" class="w-full" />
           </AspectRatio>
         </div>
       </div>

@@ -22,10 +22,9 @@
       <h1 class="text-xl font-bold">USC Reports</h1>
 
       <h5 class="max-w-[60rem]">
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur ipsa magni perspiciatis quas dolorem adipisci ducimus error
-        cupiditate voluptatibus doloribus dolore aliquam distinctio sed molestiae, veniam repellat id quidem veritatis. Lorem ipsum, dolor
-        sit amet consectetur adipisicing elit. Doloremque tenetur soluta neque voluptatem ducimus corporis cumque quasi, blanditiis vel
-        dolores consequatur. Fugit vitae, praesentium voluptatum doloribus sit itaque fuga odit?
+        In the spirit of accountable leadership and transparent governance, this section provides access to essential council documents,
+        including official narrative reports, liquidation statements, financial records, audit findings, evaluation summaries of events,
+        General Legislative Council (GLC) resolutions, and other relevant council files.
       </h5>
     </section>
 

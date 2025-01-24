@@ -9,7 +9,7 @@
   <header class="container px-16 flex justify-between items-center">
     <div class="flex items-center justify-center">
       <div class="">
-        <NuxtImg src="/images/usc-logo.jpg" sizes="80" />
+        <NuxtImg src="/images/usc-logo.png" sizes="80" />
       </div>
       <div>
         <p class="grid leading-tight text-sm">
