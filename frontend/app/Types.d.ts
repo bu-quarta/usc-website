@@ -127,3 +127,9 @@ interface CscOfficial {
   position: string
   email: string
 }
+
+interface Faq {
+  id: number
+  question: string
+  answer: string
+}

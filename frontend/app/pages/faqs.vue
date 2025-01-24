@@ -1,4 +1,6 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  const { data } = await useAsyncData<Faq[]>("faqs", () => useSanctumFetch("/api/faqs"))
+</script>
 
 <template>
   <div>
@@ -6,18 +8,16 @@
       <p class="text-xl font-bold">Frequently Asked Questions</p>
 
       <div class="grid grid-cols-2 gap-x-16">
-        <template v-for="i in 6" :key="i">
+        <template v-for="faq in data" :key="faq">
           <Accordion type="single" collapsible>
             <AccordionItem value="item-1">
               <AccordionTrigger class="font-semibold text-left gap-2 leading-tight">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla hendrerit ligula in quam sagittis elementum. Curabitur non
-                pretium velit?
+                <h4>
+                  {{ faq.question }}
+                </h4>
               </AccordionTrigger>
               <AccordionContent class="text-sm font-light">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla hendrerit ligula in quam sagittis elementum. Curabitur non
-                pretium velit. Etiam in lobortis mauris. Nulla ornare mi eu sapien imperdiet, id varius justo fringilla. Nullam vitae
-                lacinia libero. Vestibulum in nisi leo. Integer tincidunt, turpis id maximus viverra, lacus augue egestas nibh, non
-                efficitur ligula nulla at lectus.
+                {{ faq.answer }}
               </AccordionContent>
             </AccordionItem>
           </Accordion>
